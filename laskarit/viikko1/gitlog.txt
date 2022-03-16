@@ -1,0 +1,114 @@
+valttkan@lx1-fuxi182:~/ot_viikko1/tiedostoja$ git log --stat | cat
+commit d0c37638371e265ced09a9953485ad1da5f799d8
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 14:46:38 2022 +0200
+
+    poistettu file1 ja uudelleennimetty file2
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit b294e2a732c8850498d3f4bee2921354c3b64716
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 14:33:27 2022 +0200
+
+    lisätty tiedostoja-kansio
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 178ac0bde082689c83d7d4e76c2b5fe51d2e9a12
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 14:27:36 2022 +0200
+
+    muutettu eka.txt ja kolmas.txt
+
+ eka.txt    | 137 ++++++++-----------------------------------------------------
+ kolmas.txt |   2 +-
+ 2 files changed, 19 insertions(+), 120 deletions(-)
+
+commit bf8de279c60d89cf06136192e1a5ac705a3e1217
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 13:38:35 2022 +0200
+
+    uudelleennimetty tiedosto.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 6159d1b7eec881504a099a7541bf2505aa034738
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 13:36:49 2022 +0200
+
+    poistettu toinen.txt
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 983b97a25a4dbacb0aab35dcf6e1f10f623dac79
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 13:33:02 2022 +0200
+
+    lisätty ja poistettu tekstiä
+
+ tiedosto.txt | 41 +----------------------------------------
+ 1 file changed, 1 insertion(+), 40 deletions(-)
+
+commit 997dabfae84c49343f2aa23e31ee3bd213994778
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 13:27:29 2022 +0200
+
+    lisätty paljon tekstiä
+
+ tiedosto.txt | 164 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 164 insertions(+)
+
+commit 9d105d5037d384fc8f096cc5dcc864ae7879e716
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 13:21:10 2022 +0200
+
+    stuff-kansio luotu
+
+ stuff/tavaraa.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 150ee7391bab98092354e1097db3f65afcd149be
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 13:19:56 2022 +0200
+
+    muutettu toinen.txt ja kolmas.txt
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 7fb68d37de5b803bbf26e369c83ce55024004eee
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 13:17:48 2022 +0200
+
+    kolmas.txt luotu
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit eb6a152ed9a1bfe0ccb4a0b34b9d81445c82da13
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 13:15:45 2022 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 5455e2d822c69c40f54a4f4fc676b8142127ed0f
+Author: Valtteri Kantanen <valtteri.kantanen@helsinki.fi>
+Date:   Wed Mar 16 13:13:31 2022 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
