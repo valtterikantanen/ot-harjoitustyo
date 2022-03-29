@@ -13,3 +13,9 @@ Repositorioon tulee myöhemmin aloitettava *harjoitustyö* sekä palautukset kur
 [komentorivi.txt](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
 
 ## Harjoitustyö
+
+### Dokumentaatio
+
+[Vaatimusmäärittely](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
+
+[Työaikakirjanpito](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
