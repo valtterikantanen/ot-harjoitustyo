@@ -6,9 +6,9 @@ def drop_tables(db):
     db.execute("DROP TABLE IF EXISTS Expenses")
 
 def create_tables(db):
-    db.execute("CREATE TABLE Users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)")
+    db.execute("CREATE TABLE Users (id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT)")
     db.execute("CREATE TABLE Categories (id INTEGER PRIMARY KEY, name TEXT)")
-    db.execute("CREATE TABLE Expenses (id INTEGER PRIMARY KEY, date TEXT, amount INTEGER, category_id INTEGER, description TEXT)")
+    db.execute("CREATE TABLE Expenses (id INTEGER PRIMARY KEY, date TEXT, amount INTEGER, category_id INTEGER, description TEXT, user_id INTEGER)")
 
 def initialize_database():
     db = get_database()
