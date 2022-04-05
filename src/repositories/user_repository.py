@@ -21,4 +21,11 @@ class UserRepository:
             return User(result[0], result[1])
         return False
 
+    def find_all_users(self):
+        result = self.database.execute("SELECT username, password FROM Users").fetchall()
+        all_users = []
+        for user in result:
+            all_users.append(User(user[0], user[1]))
+        return all_users
+
 user_repository = UserRepository(get_database())
