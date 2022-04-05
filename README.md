@@ -2,20 +2,33 @@
 
 Tämä repositorio on laadittu Helsingin yliopiston kevään 2022 kurssille **Ohjelmistotekniikka**, ja se täydentyy tulevien viikkojen aikana.
 
-Repositorioon tulee myöhemmin aloitettava *harjoitustyö* sekä palautukset kurssin *tehtäviin*.
+## Harjoitustyön kuvaus
 
-## Tehtävät
+Sovelluksen avulla käyttäjä voi seurata henkilökohtaista talouttaan. Seuranta tapahtuu pitämällä kirjaa tuloista ja menoista sekä tarkastelemalla kirjattuja tapahtumia joko tekstimuodossa tai graafisesti. Sovellukseen voi rekisteröityä useita käyttäjiä, jotka voivat seurata omia tapahtumiaan.
 
-### Viikko 1
-
-[gitlog.txt](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
-
-[komentorivi.txt](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
-
-## Harjoitustyö
-
-### Dokumentaatio
+## Dokumentaatio
 
 [Vaatimusmäärittely](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
 [Työaikakirjanpito](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
+
+[Changelog](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/changelog.md)
+
+## Asennus ja käyttö
+
+Tarvittavien kirjastojen asentaminen
+```
+$ poetry install
+```
+Ohjelman suorittaminen
+```
+$ poetry run invoke start
+```
+Testien suorittaminen
+```
+$ poetry run invoke test
+```
+Testikattavuusraportin luominen
+```
+$ poetry run invoke coverage-report
+```
