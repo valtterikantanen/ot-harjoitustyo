@@ -1,6 +1,7 @@
 from entities.user import User
 from repositories.user_repository import user_repository
 
+
 class BudgetService:
     def __init__(self):
         self.user = None
@@ -34,9 +35,10 @@ class BudgetService:
         if not self.user:
             print("Et ole kirjautunut sisään.")
             return False
-            
+
         self.user = None
         print("Olet kirjautunut ulos.")
         return True
+
 
 budget_service = BudgetService()

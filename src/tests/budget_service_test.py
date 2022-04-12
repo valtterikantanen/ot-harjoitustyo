@@ -4,6 +4,7 @@ from repositories.user_repository import UserRepository
 from initialize_database import initialize_database
 from database_connection import get_database
 
+
 class TestBudgetService(unittest.TestCase):
     def setUp(self):
         initialize_database()
@@ -19,15 +20,18 @@ class TestBudgetService(unittest.TestCase):
     def test_log_in_if_user_is_already_logged_in(self):
         self.budget_service.create_user("antero", "password123")
         self.budget_service.login_user("antero", "password123")
-        self.assertEqual(self.budget_service.login_user("antero", "password123"), False)
+        self.assertEqual(self.budget_service.login_user(
+            "antero", "password123"), False)
 
     def test_log_in_if_user_does_not_exist(self):
         self.budget_service.create_user("antero", "password123")
-        self.assertEqual(self.budget_service.login_user("atnero", "password123"), False)
+        self.assertEqual(self.budget_service.login_user(
+            "atnero", "password123"), False)
 
     def test_log_in_if_password_is_wrong(self):
         self.budget_service.create_user("antero", "password123")
-        self.assertEqual(self.budget_service.login_user("antero", "pasword123"), False)
+        self.assertEqual(self.budget_service.login_user(
+            "antero", "pasword123"), False)
 
     def test_log_out_without_being_logged_in(self):
         self.assertEqual(self.budget_service.logout_user(), False)

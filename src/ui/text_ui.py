@@ -1,5 +1,6 @@
 from services.budget_service import budget_service
 
+
 class TextUI:
     def __init__(self):
         self.budget_service = budget_service
