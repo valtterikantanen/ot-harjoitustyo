@@ -6,7 +6,7 @@ Tavoitteena on luoda sovellus, jonka avulla käyttäjä voi seurata henkilökoht
 ## Käyttäjät
 Alussa sovelluksessa on vain yksi käyttäjätyyppi eli tavallinen käyttäjä. Tulevaisuudessa sovellukseen voi tulla mahdollisuus lisätä myös pääkäyttäjiä, joilla on laajemmat oikeudet.
 
-## Suunnitellut toiminnallisuudet
+## Toteutetut toiminnot
 
 ### Ennen kirjautumista
 
@@ -19,16 +19,23 @@ Alussa sovelluksessa on vain yksi käyttäjätyyppi eli tavallinen käyttäjä. 
 Kirjautunut käyttäjä voi:
 
 * lisätä uuden tapahtuman
-    * Tapahtumaan liittyy ainakin tapahtumapäivä, tyyppi (meno vai tulo), summa sekä kategoria.
+    * Tapahtumaan liittyy tapahtumapäivä, tyyppi (meno vai tulo), summa, kategoria ja kuvaus.
+* listata tapahtumat
+    * Käyttäjä voi listata kaikki lisäämänsä tapahtumat.
+* lisätä ja poistaa kategorioita
+    * Kategorioiden tarkoitus on auttaa tapahtumien ryhmittelyssä. Sovelluksessa on valmiina ennalta asetettuja kategorioita (esim. *asuminen*, *ruoka ja päivittäistavarat*, *ajoneuvot ja liikenne*). Käyttäjä kuitenkin pystyy poistamaan sekä valmiita että itse luotuja kategorioita.
+* kirjautua ulos.
+
+## Tulevat toiminnot
+
+Kirjautunut käyttäjä voi:
+
 * poistaa tai muokata tapahtumia
     * Käyttäjä voi valita haluamansa tapahtuman ja muokata haluamiaan tietoja. Tapahtuman voi myös poistaa kokonaan. Vahinkojen minimoimiseksi käyttäjältä varmistetaan vielä ennen lopullista poistoa, haluaako hän todella poistaa tapahtuman.
-* lisätä ja poistaa kategorioita
-    * Kategorioiden tarkoitus on auttaa menojen ryhmittelyssä. Sovelluksessa on valmiina muutamia ennalta asetettuja kategorioita (esim. asuminen, päivittäistavarat, liikenne). Käyttäjä kuitenkin pystyy poistamaan sekä valmiita että itse luotuja kategorioita.
-* listata tapahtumat
-    * Käyttäjä voi listata kaikki tapahtumat. Hän voi myös valita tietyn ajanjakson tai kategorian, johon kuuluvia tapahtumia hän haluaa tarkastella.
+* rajata tarkasteltavien tapahtumien määrää
+    * Käyttäjä voi valita tietyn ajanjakson tai kategorian, johon kuuluvia tapahtumia hän haluaa tarkastella.
 * tarkastella tapahtumia graafisesti
     * Listauksen lisäksi käyttäjä voi tarkastella tapahtumia myös graafisesti. Kuten listauksessa, hän voi tarkastella kaikkia tapahtumia tai jollakin kriteerillä valita osan niistä.
-* kirjautua ulos.
 
 ## Jatkokehitysideoita
 Aikataulun salliessa sovellusta voidaan täydentää lisäämällä mm. seuraavia toimintoja:

@@ -8,11 +8,13 @@ Sovelluksen avulla käyttäjä voi seurata henkilökohtaista talouttaan. Seurant
 
 ## Dokumentaatio
 
-[Vaatimusmäärittely](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
+* [Vaatimusmäärittely](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
-[Työaikakirjanpito](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
+* [Työaikakirjanpito](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
 
-[Changelog](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/changelog.md)
+* [Changelog](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/changelog.md)
+
+* [Arkkitehtuurikuvaus](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
 ## Asennus ja käyttö
 
@@ -31,4 +33,8 @@ $ poetry run invoke test
 Testikattavuusraportin luominen
 ```
 $ poetry run invoke coverage-report
+```
+Pylint-tarkistusten suorittaminen
+```
+$ poetry run invoke lint
 ```
