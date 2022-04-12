@@ -40,3 +40,35 @@ class TestBudgetService(unittest.TestCase):
         self.budget_service.create_user("antero", "password123")
         self.budget_service.login_user("antero", "password123")
         self.assertEqual(self.budget_service.logout_user(), True)
+
+    def test_add_transaction_when_not_logged_in(self):
+        self.assertEqual(self.budget_service.add_transaction("12.4.2022", "5.12", 1, "Food"), False)
+
+    def test_add_transaction_when_logged_in(self):
+        self.budget_service.create_user("antero", "password123")
+        self.budget_service.login_user("antero", "password123")
+        self.assertEqual(self.budget_service.add_transaction("12.4.2022", "5.12", 1, "Food"), True)
+
+    def test_find_transactions_when_not_logged_in(self):
+        self.assertEqual(self.budget_service.find_transactions(), False)
+
+    def test_find_transactions_when_logged_in(self):
+        self.budget_service.create_user("antero", "password123")
+        self.budget_service.login_user("antero", "password123")
+        self.assertEqual(len(self.budget_service.find_transactions()), 0)
+
+    def test_add_category_when_not_logged_in(self):
+        self.assertEqual(self.budget_service.add_category("Testi"), False)
+
+    def test_add_category_when_logged_in(self):
+        self.budget_service.create_user("antero", "password123")
+        self.budget_service.login_user("antero", "password123")
+        self.assertEqual(self.budget_service.add_category("Testi"), True)
+
+    def test_show_categories_when_not_logged_in(self):
+        self.assertEqual(self.budget_service.get_categories(), False)
+
+    def test_show_categories_when_logged_in(self):
+        self.budget_service.create_user("antero", "password123")
+        self.budget_service.login_user("antero", "password123")
+        self.assertEqual(len(self.budget_service.get_categories()), 21)
