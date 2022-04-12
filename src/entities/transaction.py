@@ -1,4 +1,4 @@
-class Expense:
+class Transaction:
     def __init__(self, date, amount, category_id, description, user):
         self.date = date
         self.amount = amount
