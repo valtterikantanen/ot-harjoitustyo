@@ -22,6 +22,10 @@ Tarvittavien kirjastojen asentaminen
 ```
 $ poetry install
 ```
+Alustustoimenpiteiden suorittaminen
+```
+$ poetry run invoke build
+```
 Ohjelman suorittaminen
 ```
 $ poetry run invoke start
