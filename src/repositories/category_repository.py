@@ -5,9 +5,15 @@ class CategoryRepository:
     def __init__(self, database):
         self.database = database
 
-    def find_all(self):
+    def find_all_expense_categories(self):
         categories = self.database.execute("SELECT id, name FROM Categories WHERE " \
-                                           "visible=TRUE").fetchall()
+                                           "visible=TRUE AND type='expense'").fetchall()
+
+        return categories
+
+    def find_all_income_categories(self):
+        categories = self.database.execute("SELECT id, name FROM Categories WHERE " \
+                                           "visible=TRUE AND type='income'").fetchall()
 
         return categories
 

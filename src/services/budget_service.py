@@ -45,12 +45,15 @@ class BudgetService:
         print("Olet kirjautunut ulos.")
         return True
 
-    def add_transaction(self, date, amount, category_id, description):
+    def add_transaction(self, date, income_or_expense, amount, category_id, description):
         if not self.user:
             print("Et ole kirjautunut sisään!")
             return False
 
         amount = amount.replace(",", ".")
+        if income_or_expense == "meno":
+            amount = "-" + amount
+
         try:
             amount = int(100 * float(amount))
         except ValueError:
@@ -68,12 +71,16 @@ class BudgetService:
 
         return self.transaction_repository.find_all(self.user)
 
-    def get_categories(self):
+    def get_categories(self, income_or_expense):
         if not self.user:
             print("Et ole kirjautunut sisään!")
             return False
 
-        return self.category_repository.find_all()
+        if income_or_expense.lower() == "meno":
+            return self.category_repository.find_all_expense_categories()
+
+        if income_or_expense.lower() == "tulo":
+            return self.category_repository.find_all_income_categories()
 
     def delete_category(self, name):
         if not self.user:

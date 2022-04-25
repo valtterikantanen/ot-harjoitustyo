@@ -63,13 +63,18 @@ class TextUI:
 
     def add_transaction(self):
         date = input("Päivämäärä: ")
-        amount = input("Määrä (tulo positiivinen, meno negatiivinen): ")
-        print("Kategoriat (menot 1–18, tulot 19–21):")
-        self.print_categories()
-        category_id = input("Valitse kategoria (luku 1-21): ")
+        while True:
+            income_or_expense = input("Meno vai tulo: ")
+            if income_or_expense.lower() == "meno" or income_or_expense.lower() == "tulo":
+                break
+            print("Valitse joko 'meno' tai 'tulo'.")
+        print("Kategoriat: ")
+        self.print_categories(income_or_expense)
+        category_id = input("Valitse kategoria (luku): ")
+        amount = input("Määrä: ")
         description = input("Syötä kuvaus (vapaaehtoinen): ")
         self.budget_service.add_transaction(
-            date, amount, category_id, description)
+            date, income_or_expense, amount, category_id, description)
 
     def show_transactions(self):
         transactions = self.budget_service.find_transactions()
@@ -80,14 +85,14 @@ class TextUI:
 
         for transaction in transactions:
             amount = "{0:.2f}".format(
-                transaction[1] / 100).replace('.', ',') + " €"
+                transaction[1] / 100).replace(".", ",") + " €"
             print(
                 f"| {transaction[0]: <10} | {amount: <11} | {transaction[2]: <27} | {transaction[3]: <24} |")
 
         print("+------------+-------------+-----------------------------+--------------------------+")
 
-    def print_categories(self):
-        categories = self.budget_service.get_categories()
+    def print_categories(self, income_or_expense):
+        categories = self.budget_service.get_categories(income_or_expense)
         if categories:
             for category in categories:
                 print(f"{category[0]}: {category[1]}")
