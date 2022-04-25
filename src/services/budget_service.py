@@ -12,11 +12,16 @@ class BudgetService:
         self.transaction_repository = transaction_repository
         self.category_repository = category_repository
 
-    def create_user(self, username, password):
+    def create_user(self, username, password1, password2):
         if self.user_repository.search_by_username(username):
             print(f"Käyttäjätunnus {username} on jo käytössä!")
+            return False
+        elif password1 != password2:
+            print("Salasanat eivät täsmää!")
+            return False
         else:
-            self.user_repository.create(User(username, password))
+            self.user_repository.create(User(username, password1))
+            return True
 
     def login_user(self, username, password):
         if self.user:

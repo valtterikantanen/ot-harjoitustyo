@@ -1,8 +1,15 @@
-from ui.text_ui import TextUI
+from tkinter import Tk
+from ui.ui import UI
+
 
 def main():
-    text_ui = TextUI()
-    text_ui.start()
+    window = Tk()
+    window.title("Budjetointisovellus")
+
+    ui_view = UI(window)
+    ui_view.start()
+
+    window.mainloop()
 
 
 if __name__ == "__main__":
