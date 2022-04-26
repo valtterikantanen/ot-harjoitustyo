@@ -82,21 +82,3 @@ class AddExpenseView:
         self._initalize_amount_field()
         self._initialize_description_field()
         self._initialize_expense_button()
-        
-
-        
-
-        '''btn_login = tk.Button(master=self._frame, text="Kirjaudu sisään", command=self._handle_sign_in)
-        btn_sign_up = tk.Button(master=self._frame, text="Luo uusi käyttäjätili", command=self._handle_display_create_user_view)
-
-        btn_login.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
-
-        btn_sign_up.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
-
-        frm_buttons = tk.Frame()
-        frm_buttons.pack(fill=tk.X, ipadx=5, ipady=5)
-
-        self._frame.grid_columnconfigure(1, weight=1, minsize=300)
-
-        self.budget_service.add_transaction(
-            date, income_or_expense, amount, category_id, description)'''
