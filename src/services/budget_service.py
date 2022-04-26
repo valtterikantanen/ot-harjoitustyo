@@ -16,12 +16,12 @@ class BudgetService:
         if self.user_repository.search_by_username(username):
             print(f"Käyttäjätunnus {username} on jo käytössä!")
             return False
-        elif password1 != password2:
+        if password1 != password2:
             print("Salasanat eivät täsmää!")
             return False
-        else:
-            self.user_repository.create(User(username, password1))
-            return True
+
+        self.user_repository.create(User(username, password1))
+        return True
 
     def login_user(self, username, password):
         if self.user:
@@ -91,6 +91,8 @@ class BudgetService:
 
         if income_or_expense.lower() == "tulo":
             return self.category_repository.find_all_income_categories()
+
+        return False
 
     def delete_category(self, name):
         if not self.user:

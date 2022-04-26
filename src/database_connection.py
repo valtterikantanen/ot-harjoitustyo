@@ -1,5 +1,6 @@
-from config import DB_NAME
 import sqlite3
+
+from config import DB_NAME
 
 db = sqlite3.connect(DB_NAME)
 db.isolation_level = None
