@@ -50,7 +50,7 @@ class BudgetService:
         print("Olet kirjautunut ulos.")
         return True
 
-    def add_transaction(self, date, income_or_expense, amount, category, description):
+    def add_transaction(self, date, income_or_expense, amount, category, description=None):
         if not self.user:
             print("Et ole kirjautunut sisään!")
             return False
