@@ -9,4 +9,8 @@
 | 5.4.  | 2        | Jatkettu aloitettuja luokkia, laadittu ensimmäiset testit                             |
 | 11.4. | 5        | TransactionRepository-luokan koodaaminen aloitettu, laajennettu tekstikäyttöliittymää |
 | 12.4. | 4        | CategoryRepository-luokan koodaaminen aloitettu, testattu uusia toimintoja            |
-|       | 21       | **Yhteensä**                                                                          |
+| 22.4. | 2        | TkInteriin tutustumista                                                               |
+| 24.4. | 6        | Graafisen käyttöliittymän koodaaminen aloitettu                                       |
+| 25.4. | 5        | Graafisen käyttöliittymän rakentamista                                                |
+| 26.4. | 2        | Laajennettu testejä                                                                   |
+|       | 34       | **Yhteensä**                                                                          |

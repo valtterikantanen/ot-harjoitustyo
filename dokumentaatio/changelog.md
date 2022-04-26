@@ -13,3 +13,10 @@
 * Lisätty tapahtumien tietojen tallentamisesta vastaava TransactionRepository-luokka
 * Lisätty kategorioiden tallentamisesta vastaava CategoryRepository-luokka
 * Testattu, että tapahtumien ja kategorioiden lisääminen ja listaaminen toimivat
+
+## Viikko 5
+
+* Aloitettu graafisen käyttöliittymän rakentaminen
+* Testi- ja tuotantotietokannat erotettu toisistaan
+* Korjattu vika, jossa tietokanta tyhjeni uudelleenkäynnistyksen yhteydessä
+* Testattu lisää mm. rekisteröitymistä ja kategorioiden poistamista 

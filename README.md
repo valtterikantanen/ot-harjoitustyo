@@ -6,6 +6,10 @@ Tämä repositorio on laadittu Helsingin yliopiston kevään 2022 kurssille **Oh
 
 Sovelluksen avulla käyttäjä voi seurata henkilökohtaista talouttaan. Seuranta tapahtuu pitämällä kirjaa tuloista ja menoista sekä tarkastelemalla kirjattuja tapahtumia joko tekstimuodossa tai graafisesti. Sovellukseen voi rekisteröityä useita käyttäjiä, jotka voivat seurata omia tapahtumiaan.
 
+## Julkaisut (releaset)
+
+* [Viikko 5](https://github.com/valtterikantanen/ot-harjoitustyo/releases/tag/viikko5)
+
 ## Dokumentaatio
 
 * [Vaatimusmäärittely](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
