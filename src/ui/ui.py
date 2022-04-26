@@ -1,6 +1,8 @@
 from ui.login_view import LoginView
 from ui.create_user_view import CreateUserView
 from ui.budget_view import BudgetView
+from ui.add_expense_view import AddExpenseView
+from ui.add_income_view import AddIncomeView
 
 class UI:
     def __init__(self, root):
@@ -26,7 +28,7 @@ class UI:
     def _show_budget_view(self):
         self._hide_current_view()
 
-        self._current_view = BudgetView(self._root, self._show_login_view)
+        self._current_view = BudgetView(self._root, self._show_login_view, self._show_new_expense_view, self._show_new_income_view)
 
         self._current_view.pack()
 
@@ -34,5 +36,19 @@ class UI:
         self._hide_current_view()
 
         self._current_view = CreateUserView(self._root, self._show_budget_view, self._show_login_view)
+
+        self._current_view.pack()
+
+    def _show_new_expense_view(self):
+        self._hide_current_view()
+
+        self._current_view = AddExpenseView(self._root, self._show_budget_view)
+
+        self._current_view.pack()
+
+    def _show_new_income_view(self):
+        self._hide_current_view()
+
+        self._current_view = AddIncomeView(self._root, self._show_budget_view)
 
         self._current_view.pack()

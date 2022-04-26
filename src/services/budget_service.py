@@ -50,7 +50,7 @@ class BudgetService:
         print("Olet kirjautunut ulos.")
         return True
 
-    def add_transaction(self, date, income_or_expense, amount, category_id, description):
+    def add_transaction(self, date, income_or_expense, amount, category, description):
         if not self.user:
             print("Et ole kirjautunut sisään!")
             return False
@@ -65,6 +65,8 @@ class BudgetService:
             print("Syöttämäsi määrä oli väärässä muodossa.")
             return False
 
+        category_id = self.get_category_id(category)
+
         self.transaction_repository.add(Transaction(
             date, amount, category_id, description, self.user))
         return True
@@ -75,6 +77,9 @@ class BudgetService:
             return False
 
         return self.transaction_repository.find_all(self.user)
+
+    def get_category_id(self, name):
+        return self.category_repository.find_one(name)
 
     def get_categories(self, income_or_expense):
         if not self.user:
