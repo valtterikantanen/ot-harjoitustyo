@@ -30,12 +30,9 @@ class CategoryRepository:
             "UPDATE Categories SET visible=FALSE WHERE name=?", [name])
 
     def find_one(self, name):
-        try:
-            category_id = self.database.execute(
-                "SELECT id FROM Categories WHERE name=?", [name]).fetchone()[0]
-            return category_id
-        except TypeError:
-            return None
+        category_id = self.database.execute(
+            "SELECT id FROM Categories WHERE name=?", [name]).fetchone()
+        return category_id[0] if category_id else None
 
 
 category_repository = CategoryRepository(get_database())
