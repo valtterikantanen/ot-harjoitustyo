@@ -5,10 +5,6 @@ def start(ctx):
     ctx.run("python3 src/index.py", pty=True)
 
 @task
-def start_text_ui(ctx):
-    ctx.run("python3 src/use_text_ui.py", pty=True)
-
-@task
 def build(ctx):
     ctx.run("python3 src/build.py", pty=True)
 
