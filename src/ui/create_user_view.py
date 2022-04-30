@@ -3,10 +3,10 @@ import tkinter as tk
 from services.budget_service import budget_service
 
 class CreateUserView:
-    def __init__(self, root, handle_create_user, handle_show_login_view):
+    def __init__(self, root, show_budget_view, show_login_view):
         self._root = root
-        self._handle_create_user = handle_create_user
-        self._handle_show_login_view = handle_show_login_view
+        self._show_budget_view = show_budget_view
+        self._show_login_view = show_login_view
         self._frame = None
         self._username_entry = None
         self._password_entry = None
@@ -46,7 +46,9 @@ class CreateUserView:
         password1 = self._password_entry.get()
         password2 = self._confirm_password_entry.get()
 
-        budget_service.create_user(username, password1, password2)
+        if budget_service.create_user(username, password1, password2):
+            budget_service.login_user(username, password1)
+            self._show_budget_view()
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)

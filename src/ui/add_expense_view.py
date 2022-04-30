@@ -24,7 +24,7 @@ class AddExpenseView:
 
     def _initialize_date_field(self):
         lbl_date = tk.Label(master=self._frame, text="Päivämäärä")
-        self._date_entry = DateEntry(master=self._frame, width=30, year=2022)
+        self._date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=30, year=2022)
 
         lbl_date.grid(sticky=tk.constants.W)
         self._date_entry.grid(row=0, column=1, sticky=tk.constants.EW, padx=5, pady=5)
@@ -60,12 +60,16 @@ class AddExpenseView:
         lbl_description.grid(sticky=tk.constants.W)
         self._description_entry.grid(row=3, column=1, sticky=tk.constants.EW, padx=5, pady=5)
 
-    def _initialize_expense_button(self):
+    def _initialize_buttons(self):
         btn_new_expense = ttk.Button(master=self._frame, text="Lisää meno", command=self._handle_add_expense)
         btn_new_expense.grid(row=4, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
+        btn_cancel = ttk.Button(master=self._frame, text="Peruuta", command=self._show_budget_view)
+        btn_cancel.grid(row=5, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+
     def _handle_add_expense(self):
-        date = self._date_entry.get()
+        date_entry = self._date_entry.get()
+        date = f"{date_entry[6:]}-{date_entry[3:5]}-{date_entry[:2]}"
         category = self._category_entry
         amount = self._amount_entry.get()
         description = self._description_entry.get("1.0", "end-1c")
@@ -81,4 +85,4 @@ class AddExpenseView:
         self._initialize_category_selection()
         self._initalize_amount_field()
         self._initialize_description_field()
-        self._initialize_expense_button()
+        self._initialize_buttons()

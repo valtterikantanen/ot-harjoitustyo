@@ -1,12 +1,14 @@
+from datetime import datetime
+
 import tkinter as tk
 from tkinter import ttk
 
 from services.budget_service import budget_service
 
 class BudgetView:
-    def __init__(self, root, handle_show_login_view, show_new_expense_view, show_new_income_view):
+    def __init__(self, root, show_login_view, show_new_expense_view, show_new_income_view):
         self._root = root
-        self._handle_show_login_view = handle_show_login_view
+        self._show_login_view = show_login_view
         self._show_new_expense_view = show_new_expense_view
         self._show_new_income_view = show_new_income_view
         self._frame = None
@@ -18,6 +20,11 @@ class BudgetView:
 
     def destroy(self):
         self._frame.destroy()
+
+    def _initialize_username_label(self):
+        username = budget_service.user.username
+        lbl_username = tk.Label(master=self._frame, text=f"Käyttäjätunnus: {username}")
+        lbl_username.grid(sticky=tk.constants.EW)
 
     def _initialize_transaction_list(self):
         transactions = budget_service.find_transactions()
@@ -39,9 +46,18 @@ class BudgetView:
         transaction_list.heading("description", text="Kuvaus", anchor=tk.CENTER)
 
         for i in range(len(transactions)):
-            transaction_list.insert(parent="", index="end", iid=i, text="", values=(transactions[i][0], str(transactions[i][1] / 100).replace(".", ",") + " €", transactions[i][2], transactions[i][3]))
+            datetime_object = datetime.strptime(transactions[i][0], "%Y-%m-%d")
+            date = datetime.strftime(datetime_object, "%-d.%-m.%Y")
+            amount = f"{('%.2f' % (transactions[i][1] / 100)).replace('.', ',')} €"
+            category = transactions[i][2]
+            description = transactions[i][3]
+            transaction_list.insert(parent="", index="end", iid=i, text="", values=(date, amount, category, description))
 
-        transaction_list.grid(row=0, column=0, sticky=tk.constants.W, padx=5, pady=5)
+        transaction_list.grid(sticky=tk.constants.W, padx=5, pady=5)
+
+    def _handle_log_out(self):
+        if budget_service.logout_user():
+            self._show_login_view()
 
     def _initialize_buttons(self):
         btn_new_expense = ttk.Button(master=self._frame, text="Lisää uusi meno", command=self._show_new_expense_view)
@@ -50,13 +66,12 @@ class BudgetView:
         btn_new_income = ttk.Button(master=self._frame, text="Lisää uusi tulo", command=self._show_new_income_view)
         btn_new_income.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
+        btn_log_out = ttk.Button(master=self._frame, text="Kirjaudu ulos", command=self._handle_log_out)
+        btn_log_out.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
 
-        label = tk.Label(master=self._frame, text="Tervetuloa!")
-
+        self._initialize_username_label()
         self._initialize_transaction_list()
-
         self._initialize_buttons()
-
-        #self._frame.grid_columnconfigure(1, weight=1, minsize=600)
