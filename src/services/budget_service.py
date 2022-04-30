@@ -20,7 +20,8 @@ class BudgetService:
             print("Salasanat eivät täsmää!")
             return False
 
-        self.user_repository.create(User(username, password1))
+        user_id = self.user_repository.create(User(username, password1))
+        self.category_repository.add_default_categories(user_id)
         return True
 
     def login_user(self, username, password):
@@ -38,7 +39,6 @@ class BudgetService:
             return False
 
         self.user = result
-        print("Olet kirjautunut sisään!")
         return True
 
     def logout_user(self):
@@ -79,38 +79,53 @@ class BudgetService:
         return self.transaction_repository.find_all(self.user)
 
     def get_category_id(self, name):
-        return self.category_repository.find_one(name)
+        return self.category_repository.get_category_id(name)
 
     def get_categories(self, income_or_expense):
         if not self.user:
             print("Et ole kirjautunut sisään!")
             return False
 
+        user_id = self.user_repository.get_user_id(self.user.username)
+
         if income_or_expense.lower() == "meno":
-            return self.category_repository.find_all_expense_categories()
+            return self.category_repository.find_all_expense_categories(user_id)
 
         if income_or_expense.lower() == "tulo":
-            return self.category_repository.find_all_income_categories()
+            return self.category_repository.find_all_income_categories(user_id)
 
         return False
 
-    def delete_category(self, name):
+    def get_all_categories(self):
         if not self.user:
             print("Et ole kirjautunut sisään!")
             return False
 
-        if not self.category_repository.find_one(name):
-            print("Kategoriaa ei löytynyt.")
+        user_id = self.user_repository.get_user_id(self.user.username)
+        return self.category_repository.find_all_categories(user_id)
+
+    def delete_category(self, category_id):
+        if not self.user:
+            print("Et ole kirjautunut sisään!")
             return False
-        self.category_repository.delete(name)
+
+        #if not self.get_category_id(name):
+            #print("Kategoriaa ei löytynyt.")
+            #return False
+
+        user_id = self.user_repository.get_user_id(self.user.username)
+
+        self.category_repository.delete(category_id, user_id)
         return True
 
-    def add_category(self, name):
+    def add_category(self, name, category_type):
         if not self.user:
             print("Et ole kirjautunut sisään!")
             return False
 
-        self.category_repository.add(name)
+        user_id = self.user_repository.get_user_id(self.user.username)
+
+        self.category_repository.add(name, category_type, user_id)
         return True
 
 

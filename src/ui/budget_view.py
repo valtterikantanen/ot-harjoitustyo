@@ -6,11 +6,12 @@ from tkinter import ttk
 from services.budget_service import budget_service
 
 class BudgetView:
-    def __init__(self, root, show_login_view, show_new_expense_view, show_new_income_view):
+    def __init__(self, root, show_login_view, show_new_expense_view, show_new_income_view, show_category_view):
         self._root = root
         self._show_login_view = show_login_view
         self._show_new_expense_view = show_new_expense_view
         self._show_new_income_view = show_new_income_view
+        self._show_category_view = show_category_view
         self._frame = None
 
         self._initialize()
@@ -65,6 +66,9 @@ class BudgetView:
 
         btn_new_income = ttk.Button(master=self._frame, text="Lisää uusi tulo", command=self._show_new_income_view)
         btn_new_income.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+
+        btn_show_categories = ttk.Button(master=self._frame, text="Tarkastele kategorioita", command=self._show_category_view)
+        btn_show_categories.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
         btn_log_out = ttk.Button(master=self._frame, text="Kirjaudu ulos", command=self._handle_log_out)
         btn_log_out.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
