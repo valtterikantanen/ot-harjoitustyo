@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
 
-from services.budget_service import budget_service
+from services.budget_service import budget_service, AmountInWrongFormatError, TooBigNumberError
 
 class AddExpenseView:
     def __init__(self, root, show_budget_view):
@@ -13,6 +13,8 @@ class AddExpenseView:
         self._category_entry = None
         self._amount_entry = None
         self._description_entry = None
+        self._error_label = None
+        self._error_message = None
 
         self._initialize()
 
@@ -37,16 +39,16 @@ class AddExpenseView:
         def set_category(category_selection):
             self._category_entry = category_selection
 
-        self._category_entry = tk.StringVar(self._frame)
-        self._category_entry.set("Valitse kategoria...")
+        category_selection = tk.StringVar(self._frame)
+        category_selection.set("Valitse kategoria...")
 
         lbl_category = tk.Label(master=self._frame, text="Kategoria")
-        category_entry = tk.OptionMenu(self._frame, self._category_entry, *categories_list, command=set_category)
+        category_entry = tk.OptionMenu(self._frame, category_selection, *categories_list, command=set_category)
 
         lbl_category.grid(sticky=tk.constants.W)
         category_entry.grid(row=1, column=1, sticky=tk.constants.EW, padx=5, pady=5)
 
-    def _initalize_amount_field(self):
+    def _initialize_amount_field(self):
         lbl_amount = tk.Label(master=self._frame, text="Määrä (€)")
         self._amount_entry = tk.Entry(master=self._frame)
 
@@ -67,6 +69,13 @@ class AddExpenseView:
         btn_cancel = ttk.Button(master=self._frame, text="Peruuta", command=self._show_budget_view)
         btn_cancel.grid(row=5, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
+    def _display_error(self, message):
+        self._error_message.set(message)
+        self._error_label.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
+
+    def _hide_error(self):
+        self._error_label.grid_remove()
+
     def _handle_add_expense(self):
         date_entry = self._date_entry.get()
         date = f"{date_entry[6:]}-{date_entry[3:5]}-{date_entry[:2]}"
@@ -74,15 +83,32 @@ class AddExpenseView:
         amount = self._amount_entry.get()
         description = self._description_entry.get("1.0", "end-1c")
 
-        if budget_service.add_transaction(date, "meno", amount, category, description):
-            self._show_budget_view()
+        if not self._category_entry:
+            self._display_error("Valitse kategoria!")
 
+        if len(description) > 500:
+            self._display_error("Kuvauksen maksimipituus on 500 merkkiä.")
+
+        try:
+            if self._category_entry and len(description) <= 500:
+                budget_service.add_transaction(date, "tulo", amount, category, description)
+                self._show_budget_view()
+        except AmountInWrongFormatError:
+            self._display_error("Syötä määrä muodossa 0,00 tai 0.00.")
+        except TooBigNumberError:
+            self._display_error("Liian suuri määrä!")
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
 
+        self._error_message = tk.StringVar(self._frame)
+
+        self._error_label = tk.Label(master=self._frame, textvariable=self._error_message, foreground="red")
+
         self._initialize_date_field()
         self._initialize_category_selection()
-        self._initalize_amount_field()
+        self._initialize_amount_field()
         self._initialize_description_field()
         self._initialize_buttons()
+
+        self._hide_error()

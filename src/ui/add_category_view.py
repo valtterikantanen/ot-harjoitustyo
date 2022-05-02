@@ -11,6 +11,8 @@ class AddCategoryView:
         self._frame = None
         self._name_entry = None
         self._type_entry = None
+        self._error_label = None
+        self._error_message = None
 
         self._initialize()
 
@@ -49,15 +51,36 @@ class AddCategoryView:
         btn_cancel = ttk.Button(master=self._frame, text="Peruuta", command=self._show_category_view)
         btn_cancel.grid(row=3, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
-    def _handle_add_category(self):
-        name = self._name_entry.get()
-        category_type = "expense" if self._type_entry == "Meno" else "income"
+    def _display_error(self, message):
+        self._error_message.set(message)
+        self._error_label.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
 
-        if budget_service.add_category(name, category_type):
+    def _hide_error(self):
+        self._error_label.grid_remove()
+
+    def _handle_add_category(self):
+        name = self._name_entry.get().strip()
+
+        if len(name) == 0:
+            self._display_error("Syötä kategorian nimi!")
+
+        if not self._type_entry:
+            self._display_error("Valitse kategoria!")
+        elif self._type_entry == "Meno":
+            category_type = "expense"
+        elif self._type_entry == "Tulo":
+            category_type = "income"
+
+        if self._type_entry and len(name) > 0:
+            budget_service.add_category(name, category_type)
             self._show_category_view()
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
+
+        self._error_message = tk.StringVar(self._frame)
+
+        self._error_label = tk.Label(master=self._frame, textvariable=self._error_message, foreground="red")
 
         self._initialize_name_field()
         self._initialize_type_selection()

@@ -57,8 +57,8 @@ class BudgetView:
         transaction_list.grid(sticky=tk.constants.W, padx=5, pady=5)
 
     def _handle_log_out(self):
-        if budget_service.logout_user():
-            self._show_login_view()
+        budget_service.logout_user()
+        self._show_login_view()
 
     def _initialize_buttons(self):
         btn_new_expense = ttk.Button(master=self._frame, text="Lisää uusi meno", command=self._show_new_expense_view)

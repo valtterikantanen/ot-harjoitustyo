@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
 
-from services.budget_service import budget_service
+from services.budget_service import budget_service, AmountInWrongFormatError, TooBigNumberError
 
 class AddIncomeView:
     def __init__(self, root, show_budget_view):
@@ -13,6 +13,8 @@ class AddIncomeView:
         self._category_entry = None
         self._amount_entry = None
         self._description_entry = None
+        self._error_label = None
+        self._error_message = None
 
         self._initialize()
 
@@ -67,6 +69,13 @@ class AddIncomeView:
         btn_cancel = ttk.Button(master=self._frame, text="Peruuta", command=self._show_budget_view)
         btn_cancel.grid(row=5, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
+    def _display_error(self, message):
+        self._error_message.set(message)
+        self._error_label.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
+
+    def _hide_error(self):
+        self._error_label.grid_remove()
+
     def _handle_add_income(self):
         date_entry = self._date_entry.get()
         date = f"{date_entry[6:]}-{date_entry[3:5]}-{date_entry[:2]}"
@@ -74,14 +83,32 @@ class AddIncomeView:
         amount = self._amount_entry.get()
         description = self._description_entry.get("1.0", "end-1c")
 
-        if budget_service.add_transaction(date, "tulo", amount, category, description):
-            self._show_budget_view()
+        if not self._category_entry:
+            self._display_error("Valitse kategoria!")
+
+        if len(description) > 500:
+            self._display_error("Kuvauksen maksimipituus on 500 merkkiä.")
+
+        try:
+            if self._category_entry:
+                budget_service.add_transaction(date, "tulo", amount, category, description)
+                self._show_budget_view()
+        except AmountInWrongFormatError:
+            self._display_error("Syötä määrä muodossa 0,00 tai 0.00.")
+        except TooBigNumberError:
+            self._display_error("Liian suuri määrä!")
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
+
+        self._error_message = tk.StringVar(self._frame)
+
+        self._error_label = tk.Label(master=self._frame, textvariable=self._error_message, foreground="red")
 
         self._initialize_date_field()
         self._initialize_category_selection()
         self._initalize_amount_field()
         self._initialize_description_field()
         self._initialize_buttons()
+
+        self._hide_error()

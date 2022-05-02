@@ -30,13 +30,9 @@ Alustustoimenpiteiden suorittaminen
 ```
 $ poetry run invoke build
 ```
-Ohjelman suorittaminen (graafinen käyttöliittymä)
+Ohjelman suorittaminen
 ```
 $ poetry run invoke start
-```
-Ohjelman suorittaminen (tekstikäyttöliittymä)
-```
-$ poetry run invoke start-text-ui
 ```
 Testien suorittaminen
 ```

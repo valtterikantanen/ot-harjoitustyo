@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from services.budget_service import budget_service
+from services.budget_service import budget_service, PasswordsDontMatchError, UsernameAlreadyExistsError, InvalidUsernameOrPasswordError
 
 class CreateUserView:
     def __init__(self, root, show_budget_view, show_login_view):
@@ -11,6 +11,8 @@ class CreateUserView:
         self._username_entry = None
         self._password_entry = None
         self._confirm_password_entry = None
+        self._error_label = None
+        self._error_message = None
 
         self._initialize()
 
@@ -41,27 +43,49 @@ class CreateUserView:
         lbl_confirm_password.grid(sticky=tk.constants.W)
         self._confirm_password_entry.grid(row=2, column=1, sticky=tk.constants.EW, padx=5, pady=5)
 
+    def _display_error(self, message):
+        self._error_message.set(message)
+        self._error_label.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
+
+    def _hide_error(self):
+        self._error_label.grid_remove()
+
     def _handle_signing_up(self):
         username = self._username_entry.get()
         password1 = self._password_entry.get()
         password2 = self._confirm_password_entry.get()
 
-        if budget_service.create_user(username, password1, password2):
+        try:
+            budget_service.create_user(username, password1, password2)
             budget_service.login_user(username, password1)
             self._show_budget_view()
+        except PasswordsDontMatchError:
+            self._display_error("Salasanat eivät täsmää!")
+        except UsernameAlreadyExistsError:
+            self._display_error(f"Käyttäjätunnus {username} on jo käytössä!")
+        except InvalidUsernameOrPasswordError:
+            self._display_error("Anna käyttäjätunnus ja salasana!")
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
+
+        self._error_message = tk.StringVar(self._frame)
+
+        self._error_label = tk.Label(master=self._frame, textvariable=self._error_message, foreground="red")
 
         self._initialize_username_field()
         self._initialize_password_field()
         self._initialize_confirm_password_field()
 
         btn_sign_up = tk.Button(master=self._frame, text="Luo käyttäjätili", command=self._handle_signing_up)
-
         btn_sign_up.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
+
+        btn_cancel = tk.Button(master=self._frame, text="Peruuta", command=self._show_login_view)
+        btn_cancel.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
 
         frm_buttons = tk.Frame()
         frm_buttons.pack(fill=tk.X, ipadx=5, ipady=5)
 
         self._frame.grid_columnconfigure(1, weight=1, minsize=300)
+
+        self._hide_error()
