@@ -91,7 +91,7 @@ class AddExpenseView:
 
         try:
             if self._category_entry and len(description) <= 500:
-                budget_service.add_transaction(date, "tulo", amount, category, description)
+                budget_service.add_transaction(date, "expense", amount, category, description)
                 self._show_budget_view()
         except AmountInWrongFormatError:
             self._display_error("Syötä määrä muodossa 0,00 tai 0.00.")

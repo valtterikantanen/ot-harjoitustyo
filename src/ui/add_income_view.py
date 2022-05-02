@@ -91,7 +91,7 @@ class AddIncomeView:
 
         try:
             if self._category_entry:
-                budget_service.add_transaction(date, "tulo", amount, category, description)
+                budget_service.add_transaction(date, "income", amount, category, description)
                 self._show_budget_view()
         except AmountInWrongFormatError:
             self._display_error("Syötä määrä muodossa 0,00 tai 0.00.")

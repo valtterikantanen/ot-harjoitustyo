@@ -27,13 +27,34 @@ class TooBigNumberError(Exception):
 
 
 class BudgetService:
+    """Sovelluslogiikasta vastaava luokka.
+    """
+
     def __init__(self):
+        """Luokan konstruktori.
+        """
+
         self.user = None
         self.user_repository = user_repository
         self.transaction_repository = transaction_repository
         self.category_repository = category_repository
 
     def create_user(self, username, password1, password2):
+        """Luo uuden käyttäjän ja lisää hänen käyttöönsä oletuskategoriat.
+
+        Args:
+            username: Haluttu käyttäjätunnus.
+            password1: Haluttu salasana.
+            password2: Haluttu salasana toiseen kertaan.
+
+        Raises:
+            UsernameAlreadyExistsError: Virhe, joka tapahtuu, kun käyttäjätunnus on jo käytössä.
+            PasswordsDontMatchError:
+                Virhe, joka tapahtuu, kun ensimmäinen ja toinen salasana eivät vastaa toisiaan.
+            InvalidUsernameOrPasswordError:
+                Virhe, joka tapahtuu, kun käyttäjänimi tai salasana on tyhjä.
+        """
+        
         if self.user_repository.search_by_username(username):
             raise UsernameAlreadyExistsError()
         if password1 != password2:
@@ -45,6 +66,19 @@ class BudgetService:
         self.category_repository.add_default_categories(user_id)
 
     def login_user(self, username, password):
+        """Kirjaa käyttäjän sisään.
+
+        Args:
+            username (_type_): Käyttäjän käyttäjätunnus.
+            password (_type_): Käyttäjän salasana.
+
+        Raises:
+            UserNotFoundError:
+                Virhe, joka tapahtuu, kun käyttäjän antamaa käyttäjätunnusta vastaavaa käyttäjää
+                ei ole olemassa.
+            WrongPasswordError: Virhe, joka tapahtuu, kun käyttäjän antama salasana on väärä.
+        """
+
         result = self.user_repository.search_by_username(username)
         if not result:
             raise UserNotFoundError()
@@ -54,11 +88,28 @@ class BudgetService:
         self.user = result
 
     def logout_user(self):
+        """Kirjaa mahdollisesti sisäänkirjautuneen käyttäjän ulos.
+        """
+
         self.user = None
 
-    def add_transaction(self, date, income_or_expense, amount, category, description=None):
+    def add_transaction(self, date, category_type, amount, category, description=None):
+        """Luo uuden tapahtuman.
+
+        Args:
+            date: Päivämäärä merkkijonona (muodossa 'YYYY-MM-DD')
+            category_type: Tapahtumatyyppi ('expense' jos meno, 'income' jos tulo).
+            amount: Summa merkkijonona (muodossa '0,00' tai '0.00').
+            category: Tapahtuman kategoria
+            description: Tapahtuman kuvaus. Vapaaehtoinen, oletuksena None.
+
+        Raises:
+            AmountInWrongFormatError: Virhe, joka tapahtuu, kun summa on väärässä muodossa.
+            TooBigNumberError: Virhe, joka tapahtuu, kun summa on liian suuri.
+        """
+
         amount = amount.replace(",", ".")
-        if income_or_expense == "meno":
+        if category_type == "expense":
             amount = f"-{amount}"
 
         try:
@@ -69,26 +120,53 @@ class BudgetService:
         if amount < -9223372036854775808 or amount > 9223372036854775807:
             raise TooBigNumberError()
 
-        category_id = self.get_category_id(category)
+        category_id = self.category_repository.get_category_id(category_type)
 
         self.transaction_repository.add(Transaction(
-            date, amount, category_id, description, self.user))
+            date, amount, category_id, self.user, description))
 
     def find_transactions(self):
-        return self.transaction_repository.find_all(self.user)
+        """Hakee nykyisen käyttäjän tapahtumat.
 
-    def get_category_id(self, name):
-        return self.category_repository.get_category_id(name)
+        Returns:
+            Lista käyttäjän tapahtumista.
+        """
 
-    def get_categories(self, income_or_expense):
         user_id = self.user_repository.get_user_id(self.user.username)
-        return self.category_repository.get_categories(user_id, income_or_expense)
+        return self.transaction_repository.find_all(user_id)
+
+    def get_categories(self, category_type):
+        """Hakee nykyisen käyttäjän kategoriat.
+
+        Args:
+            category_type:
+                Haettavien kategorioiden tyyppi ('expense' jos meno, 'income' jos tulo).
+
+        Returns:
+            Lista kategorioista.
+        """
+
+        user_id = self.user_repository.get_user_id(self.user.username)
+        return self.category_repository.get_categories(user_id, category_type)
 
     def delete_category(self, category_id):
+        """Poistaa kategorian näkyvistä nykyiseltä käyttäjältä.
+
+        Args:
+            category_id: Poistettavan kategorian id.
+        """
+
         user_id = self.user_repository.get_user_id(self.user.username)
         self.category_repository.delete(category_id, user_id)
 
     def add_category(self, name, category_type):
+        """Luo uuden kategorian.
+
+        Args:
+            name: Lisättävän kategorian nimi.
+            category_type: Lisättävän kategorian tyyppi ('expense' jos meno, 'income' jos tulo).
+        """
+
         user_id = self.user_repository.get_user_id(self.user.username)
         self.category_repository.add(name, category_type, user_id)
 
