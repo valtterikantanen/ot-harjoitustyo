@@ -13,13 +13,9 @@ class TransactionRepository:
         user_id = self.database.execute(
             "SELECT id from Users WHERE username=?", [transaction.user.username]).fetchone()[0]
 
-        try:
-            self.database.execute(
-                "INSERT INTO Transactions (date, amount, category_id, description, user_id) "
-                "VALUES (?, ?, ?, ?, ?)", [date, amount, category_id, description, user_id])
-            print("Tapahtuma lisätty!")
-        except:
-            print("Tapahtuman lisäämisessä tapahtui virhe, yritä uudelleen.")
+        self.database.execute(
+            "INSERT INTO Transactions (date, amount, category_id, description, user_id) "
+            "VALUES (?, ?, ?, ?, ?)", [date, amount, category_id, description, user_id])
 
     def find_all(self, user):
         user_id = self.database.execute(

@@ -10,14 +10,9 @@ class UserRepository:
         username = user.username
         password = user.password
 
-        try:
-            self.database.execute(
-                "INSERT INTO Users (username, password) VALUES (?, ?)", [username, password])
-            user_id = self.get_user_id(username)
-            print(f"Käyttäjä {username} lisätty!")
-            return user_id
-        except:
-            print("Käyttäjän lisäämisessä tapahtui virhe, yritä uudelleen.")
+        self.database.execute(
+            "INSERT INTO Users (username, password) VALUES (?, ?)", [username, password])
+        return self.get_user_id(username)
 
     def search_by_username(self, username):
         result = self.database.execute(
@@ -25,9 +20,9 @@ class UserRepository:
         return User(result[0], result[1]) if result else False
 
     def get_user_id(self, username):
-        id = self.database.execute("SELECT id FROM Users WHERE username=?", [username]).fetchone()
-
-        return id[0] if id else None
+        user_id = self.database.execute(
+            "SELECT id FROM Users WHERE username=?", [username]).fetchone()
+        return user_id[0] if user_id else None
 
     #def find_all_users(self):
         #result = self.database.execute("SELECT username, password FROM Users").fetchall()
