@@ -33,7 +33,7 @@ class AddIncomeView:
 
     def _initialize_category_selection(self):
         categories_list = []
-        for category in budget_service.get_categories("tulo"):
+        for category in budget_service.get_categories("income"):
             categories_list.append(category[1])
 
         def set_category(category_selection):

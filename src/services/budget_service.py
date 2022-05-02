@@ -82,18 +82,7 @@ class BudgetService:
 
     def get_categories(self, income_or_expense):
         user_id = self.user_repository.get_user_id(self.user.username)
-
-        if income_or_expense.lower() == "meno":
-            return self.category_repository.find_all_expense_categories(user_id)
-
-        if income_or_expense.lower() == "tulo":
-            return self.category_repository.find_all_income_categories(user_id)
-
-        return False
-
-    def get_all_categories(self):
-        user_id = self.user_repository.get_user_id(self.user.username)
-        return self.category_repository.find_all_categories(user_id)
+        return self.category_repository.get_categories(user_id, income_or_expense)
 
     def delete_category(self, category_id):
         user_id = self.user_repository.get_user_id(self.user.username)

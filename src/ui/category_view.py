@@ -23,7 +23,7 @@ class CategoryView:
         self._frame.destroy()
 
     def _initialize_category_list(self):
-        categories = budget_service.get_all_categories()
+        categories = budget_service.get_categories(None)
 
         category_list = ttk.Treeview(self._frame)
 

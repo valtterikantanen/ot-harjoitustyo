@@ -33,7 +33,7 @@ class AddExpenseView:
 
     def _initialize_category_selection(self):
         categories_list = []
-        for category in budget_service.get_categories("meno"):
+        for category in budget_service.get_categories("expense"):
             categories_list.append(category[1])
 
         def set_category(category_selection):
