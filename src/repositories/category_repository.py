@@ -42,7 +42,7 @@ class CategoryRepository:
                 categories = self.database.execute(
                     "SELECT C.id, C.name, C.type FROM Categories C, CategoryVisibilities V WHERE "
                     "C.id=V.category_id AND V.user_id=? ORDER BY C.id", [user_id]).fetchall()
-            else:  
+            else:
                 categories = self.database.execute(
                     "SELECT C.id, C.name, C.type FROM Categories C, CategoryVisibilities V WHERE "
                     "C.type IN (?) AND C.id=V.category_id AND V.user_id=? ORDER BY C.id",

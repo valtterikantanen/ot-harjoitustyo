@@ -24,7 +24,7 @@ class UserRepository:
         Returns:
             Tallennetun käyttäjän id.
         """
-        
+
         username = user.username
         password = user.password
 
