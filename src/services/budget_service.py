@@ -93,19 +93,19 @@ class BudgetService:
 
         self.user = None
 
-    def add_transaction(self, date, category_type, amount, category, description=None):
-        """Luo uuden tapahtuman.
+    def validate_transaction_data(self, category_type, amount):
+        """Validoi uuteen tai päivitettävään tapahtumaan liittyviä tietoja.
 
         Args:
-            date: Päivämäärä merkkijonona (muodossa 'YYYY-MM-DD')
             category_type: Tapahtumatyyppi ('expense' jos meno, 'income' jos tulo).
             amount: Summa merkkijonona (muodossa '0,00' tai '0.00').
-            category: Tapahtuman kategoria
-            description: Tapahtuman kuvaus. Vapaaehtoinen, oletuksena None.
 
         Raises:
             AmountInWrongFormatError: Virhe, joka tapahtuu, kun summa on väärässä muodossa.
             TooBigNumberError: Virhe, joka tapahtuu, kun summa on liian suuri.
+
+        Returns:
+            Summa kokonaislukuna (esim. summa 99,68 € esitetään muodossa 9968).
         """
 
         amount = amount.replace(",", ".")
@@ -120,9 +120,42 @@ class BudgetService:
         if amount < -9223372036854775808 or amount > 9223372036854775807:
             raise TooBigNumberError()
 
-        category_id = self.category_repository.get_category_id(category_type)
+        return amount
+
+    def add_transaction(self, date, category_type, amount, category, description=None):
+        """Luo uuden tapahtuman.
+
+        Args:
+            date: Päivämäärä merkkijonona (muodossa 'YYYY-MM-DD')
+            category_type: Tapahtumatyyppi ('expense' jos meno, 'income' jos tulo).
+            amount: Summa merkkijonona (muodossa '0,00' tai '0.00').
+            category: Tapahtuman kategoria
+            description: Tapahtuman kuvaus. Vapaaehtoinen, oletuksena None.
+        """
+
+        amount = self.validate_transaction_data(category_type, amount)
+
+        category_id = self.category_repository.get_category_id(category)
 
         self.transaction_repository.add(Transaction(
+            date, amount, category_id, self.user, description))
+
+    def update_transaction(self, transaction_id, date, category_type, amount, category, description=None):
+        """Päivittää halutun tapahtuman tiedot.
+
+        Args:
+            transaction_id: Tapahtuman id.
+            date: Päivämäärä merkkijonona (muodossa 'YYYY-MM-DD')
+            category_type: Tapahtumatyyppi ('expense' jos meno, 'income' jos tulo).
+            amount: Summa merkkijonona (muodossa '0,00' tai '0.00').
+            category: Tapahtuman kategoria
+            description: Tapahtuman kuvaus. Vapaaehtoinen, oletuksena None.
+        """
+
+        amount = self.validate_transaction_data(category_type, amount)
+        category_id = self.category_repository.get_category_id(category)
+
+        self.transaction_repository.update(transaction_id, Transaction(
             date, amount, category_id, self.user, description))
 
     def find_transactions(self):
@@ -134,6 +167,27 @@ class BudgetService:
 
         user_id = self.user_repository.get_user_id(self.user.username)
         return self.transaction_repository.find_all(user_id)
+
+    def get_transaction(self, transaction_id):
+        """Hakee yksittäisen tapahtuman.
+
+        Args:
+            transaction_id: Tapahtuman id.
+
+        Returns:
+            Tapahtuma tuplena, jonka kenttinä on päivämäärä, summa, kategoria ja kuvaus.
+        """
+        
+        return self.transaction_repository.get_transaction(transaction_id)
+
+    def delete_transaction(self, transaction_id):
+        """Poistaa tapahtuman.
+
+        Args:
+            transaction_id: Poistettavan tapahtuman id.
+        """
+
+        self.transaction_repository.delete(transaction_id)
 
     def get_categories(self, category_type):
         """Hakee nykyisen käyttäjän kategoriat.

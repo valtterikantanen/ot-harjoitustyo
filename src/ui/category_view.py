@@ -1,8 +1,7 @@
 from datetime import datetime
 
 import tkinter as tk
-from tkinter import ttk
-import tkinter.messagebox
+from tkinter import ttk, messagebox
 
 from services.budget_service import budget_service
 
@@ -58,13 +57,13 @@ class CategoryView:
                 budget_service.delete_category(self._selected_category_id)
                 category_list.delete(selected_item)
             else:
-                tkinter.messagebox.showerror(message="Valitse kategoria!")
-
-        btn_delete_category = ttk.Button(master=self._frame, text="Poista kategoria", command=delete)
-        btn_delete_category.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+                messagebox.showerror(message="Valitse kategoria!")
 
         btn_add_category = ttk.Button(master=self._frame, text="Lisää kategoria", command=self._show_add_category_view)
         btn_add_category.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+
+        btn_delete_category = ttk.Button(master=self._frame, text="Poista kategoria", command=delete)
+        btn_delete_category.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
         btn_show_main_view = ttk.Button(master=self._frame, text="Palaa päänäkymään", command=self._show_budget_view)
         btn_show_main_view.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)

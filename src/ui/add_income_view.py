@@ -26,7 +26,7 @@ class AddIncomeView:
 
     def _initialize_date_field(self):
         lbl_date = tk.Label(master=self._frame, text="Päivämäärä")
-        self._date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=30, year=2022)
+        self._date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=30)
 
         lbl_date.grid(sticky=tk.constants.W)
         self._date_entry.grid(row=0, column=1, sticky=tk.constants.EW, padx=5, pady=5)
