@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -54,8 +52,10 @@ class CategoryView:
         def delete():
             selected_item = category_list.selection()[0] if category_list.selection() else None
             if selected_item:
-                budget_service.delete_category(self._selected_category_id)
-                category_list.delete(selected_item)
+                answer = messagebox.askyesno(message="Haluatko varmasti poistaa kategorian?", icon="warning")
+                if answer:
+                    budget_service.delete_category(self._selected_category_id)
+                    category_list.delete(selected_item)
             else:
                 messagebox.showerror(message="Valitse kategoria!")
 

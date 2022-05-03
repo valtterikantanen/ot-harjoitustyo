@@ -60,7 +60,7 @@ class BudgetView:
             transaction_id = transactions[i][0]
             datetime_object = datetime.strptime(transactions[i][1], "%Y-%m-%d")
             date = datetime.strftime(datetime_object, "%-d.%-m.%Y")
-            amount = f"{('%.2f' % (transactions[i][2] / 100)).replace('.', ',')} €"
+            amount = f"{('%.2f' % (transactions[i][2] / 100)).replace('.', ',').replace('-', '−')} €"
             category = transactions[i][3]
             description = transactions[i][4]
             transaction_list.insert(parent="", index="end", iid=i, text="", values=(transaction_id, date, amount, category, description))
