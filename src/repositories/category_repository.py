@@ -62,7 +62,7 @@ class CategoryRepository:
 
         categories = self.get_categories(category_type=category_type)
 
-        if not (self.get_category_id(name), name) in categories:
+        if not (self.get_category_id(name), name, category_type) in categories:
             self.database.execute(
                 "INSERT INTO Categories (name, type) VALUES (?, ?)", [name, category_type])
         category_id = self.get_category_id(name, category_type)

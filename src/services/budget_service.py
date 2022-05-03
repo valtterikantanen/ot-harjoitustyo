@@ -113,7 +113,7 @@ class BudgetService:
             amount = f"-{amount}"
 
         try:
-            amount = int(100 * float(amount))
+            amount = round(100 * float(amount))
         except ValueError as exc:
             raise AmountInWrongFormatError() from exc
 
