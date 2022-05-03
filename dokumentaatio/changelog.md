@@ -19,4 +19,13 @@
 * Aloitettu graafisen käyttöliittymän rakentaminen
 * Testi- ja tuotantotietokannat erotettu toisistaan
 * Korjattu vika, jossa tietokanta tyhjeni uudelleenkäynnistyksen yhteydessä
-* Testattu lisää mm. rekisteröitymistä ja kategorioiden poistamista 
+* Testattu lisää mm. rekisteröitymistä ja kategorioiden poistamista
+
+## Viikko 6
+
+* Saatettu graafinen käyttöliittymä ajan tasalle, eli kaikki nykyiset toiminnot ovat käytössä graafisessa käyttöliittymässä
+* Korjattu lukuisia bugeja mm. syötteiden validointiin ja rekisteröitymiseen liittyen
+* Lisätty käyttöliittymään virheilmoitukset virheellisistä syötteistä
+* Muokattu tietokantaa niin, että jokaisella käyttäjällä on omat kategoriansa, jolloin yhden käyttäjän lisäämät tai poistamat kategoriat eivät suoraan vaikuta muihin käyttäjiin
+* Lisätty mahdollisuus muokata ja poistaa jo lisättyjä tapahtumia
+* Testattu, että kategorioiden poisto sekä tapahtumien muokkaus ja poisto toimivat odotetulla tavalla

@@ -13,4 +13,7 @@
 | 24.4. | 6        | Graafisen käyttöliittymän koodaaminen aloitettu                                       |
 | 25.4. | 5        | Graafisen käyttöliittymän rakentamista                                                |
 | 26.4. | 2        | Laajennettu testejä                                                                   |
-|       | 34       | **Yhteensä**                                                                          |
+| 29.4. | 6        | Laajennettu käyttöliittymää, selkiytetty testejä                                      |
+| 2.5.  | 6        | Parannettu virheenkäsittelyä, laajennettu edelleen käyttöliittymää                    |
+| 3.5.  | 7        | Poistettu toisteista koodia, parannettu koodin muotoilua, kirjoitettu uusia testejä   |
+|       | 53       | **Yhteensä**                                                                          |

@@ -10,9 +10,13 @@ Sovelluksen avulla käyttäjä voi seurata henkilökohtaista talouttaan. Seurant
 
 * [Viikko 5](https://github.com/valtterikantanen/ot-harjoitustyo/releases/tag/viikko5)
 
+* [Viikko 6](https://github.com/valtterikantanen/ot-harjoitustyo/releases/tag/viikko6)
+
 ## Dokumentaatio
 
 * [Vaatimusmäärittely](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
+
+* [Käyttöohje](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
 
 * [Työaikakirjanpito](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
 

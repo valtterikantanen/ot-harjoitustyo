@@ -19,10 +19,12 @@ Alussa sovelluksessa on vain yksi käyttäjätyyppi eli tavallinen käyttäjä. 
 Kirjautunut käyttäjä voi:
 
 * lisätä uuden tapahtuman
-    * Tapahtumaan liittyy tapahtumapäivä, tyyppi (meno vai tulo), summa, kategoria ja kuvaus.
+    * Tapahtumaan liittyy tapahtumapäivä, tyyppi (meno vai tulo), summa, kategoria ja vapaaehtoinen kuvaus.
 * listata tapahtumat
     * Käyttäjä voi listata kaikki lisäämänsä tapahtumat.
-* lisätä ja poistaa kategorioita
+* poistaa tai muokata tapahtumia
+    * Käyttäjä voi valita haluamansa tapahtuman ja muokata haluamiaan tietoja. Tapahtuman voi myös poistaa kokonaan. Vahinkojen minimoimiseksi käyttäjältä varmistetaan vielä ennen lopullista poistoa, haluaako hän todella poistaa tapahtuman.
+* tarkastella, lisätä ja poistaa kategorioita
     * Kategorioiden tarkoitus on auttaa tapahtumien ryhmittelyssä. Sovelluksessa on valmiina ennalta asetettuja kategorioita (esim. *asuminen*, *ruoka ja päivittäistavarat*, *ajoneuvot ja liikenne*). Käyttäjä kuitenkin pystyy poistamaan sekä valmiita että itse luotuja kategorioita.
 * kirjautua ulos.
 
@@ -30,8 +32,6 @@ Kirjautunut käyttäjä voi:
 
 Kirjautunut käyttäjä voi:
 
-* poistaa tai muokata tapahtumia
-    * Käyttäjä voi valita haluamansa tapahtuman ja muokata haluamiaan tietoja. Tapahtuman voi myös poistaa kokonaan. Vahinkojen minimoimiseksi käyttäjältä varmistetaan vielä ennen lopullista poistoa, haluaako hän todella poistaa tapahtuman.
 * rajata tarkasteltavien tapahtumien määrää
     * Käyttäjä voi valita tietyn ajanjakson tai kategorian, johon kuuluvia tapahtumia hän haluaa tarkastella.
 * tarkastella tapahtumia graafisesti
