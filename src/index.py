@@ -4,7 +4,7 @@ from ui.ui import UI
 
 def main():
     window = Tk()
-    window.title("Budjetointisovellus")
+    window.title("Menojen ja tulojen seurantasovellus")
 
     ui_view = UI(window)
     ui_view.start()

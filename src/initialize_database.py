@@ -2,6 +2,12 @@ from database_connection import get_database
 
 
 def drop_tables(database):
+    """Poistaa tietokantataulut.
+
+    Args:
+        database: Tietokantayhteyden Connection-olio.
+    """
+
     database.execute("DROP TABLE IF EXISTS Users")
     database.execute("DROP TABLE IF EXISTS Transactions")
     database.execute("DROP TABLE IF EXISTS Categories")
@@ -9,6 +15,12 @@ def drop_tables(database):
 
 
 def create_tables(database):
+    """Luo tietokantataulut.
+
+    Args:
+        database: Tietokantayhteyden Connection-olio.
+    """
+
     database.execute(
         "CREATE TABLE Users (id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT)")
     database.execute(
@@ -19,20 +31,28 @@ def create_tables(database):
 
 
 def insert_categories(database):
-    expense_categories = [
-        "Ajoneuvot ja liikenne", "Asuminen", "Harrastukset", "Kauneus ja hyvinvointi",
-        "Kulttuuri ja viihde", "Lapset", "Lemmikit", "Luoton maksut", "Matkailu", "Ostokset",
-        "Palvelut", "Ravintolat ja kahvilat", "Ruoka ja päivittäistavarat",
-        "Säästöt ja sijoitukset", "Terveys", "Vaatteet", "Vakuutukset", "Muut menot"
+    """Syöttää oletuskategoriat tietokannan Categories-tauluun.
+
+    Args:
+        database: Tietokantayhteyden Connection-olio.
+    """
+
+    categories = [
+        ("Ajoneuvot ja liikenne", "expense"), ("Asuminen", "expense"), ("Harrastukset", "expense"),
+        ("Kauneus ja hyvinvointi", "expense"), ("Kulttuuri ja viihde", "expense"), ("Lapset",
+        "expense"), ("Lemmikit", "expense"), ("Luoton maksut", "expense"), ("Matkailu", "expense"),
+        ("Ostokset", "expense"), ("Palvelut", "expense"), ("Ravintolat ja kahvilat", "expense"),
+        ("Ruoka ja päivittäistavarat", "expense"), ("Säästöt ja sijoitukset", "expense"),
+        ("Terveys", "expense"), ("Vaatteet", "expense"), ("Vakuutukset", "expense"), ("Muut menot",
+        "expense"), ("Palkka", "income"), ("Tulonsiirrot", "income"), ("Muut tulot", "income")
         ]
-    income_categories = ["Palkka", "Tulonsiirrot", "Muut tulot"]
-    for category in expense_categories:
-        database.execute("INSERT INTO Categories (name, type) VALUES (?, 'expense')", [category])
-    for category in income_categories:
-        database.execute("INSERT INTO Categories (name, type) VALUES (?, 'income')", [category])
+    database.executemany("INSERT INTO Categories (name, type) VALUES (?, ?)", categories)
 
 
 def initialize_database():
+    """Alustaa tietokantataulut.
+    """
+
     database = get_database()
 
     drop_tables(database)

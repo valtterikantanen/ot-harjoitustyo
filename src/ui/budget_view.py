@@ -37,7 +37,8 @@ class BudgetView:
 
         def select_item(a):
             selected_item = transaction_list.focus()
-            self._selected_transaction_id = transaction_list.item(selected_item)["values"][0]
+            if selected_item:
+                self._selected_transaction_id = transaction_list.item(selected_item)["values"][0]
 
         transaction_list.column("#0", width=0, stretch=tk.NO)
         transaction_list.column("id", width=0, stretch=tk.NO)
