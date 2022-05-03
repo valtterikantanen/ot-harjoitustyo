@@ -4,10 +4,11 @@ from tkcalendar import DateEntry
 
 from services.budget_service import budget_service, AmountInWrongFormatError, TooBigNumberError
 
-class AddExpenseView:
-    def __init__(self, root, show_budget_view):
+class AddTransactionView:
+    def __init__(self, root, show_budget_view, category_type):
         self._root = root
         self._show_budget_view = show_budget_view
+        self._category_type = category_type
         self._frame = None
         self._date_entry = None
         self._category_entry = None
@@ -33,7 +34,7 @@ class AddExpenseView:
 
     def _initialize_category_selection(self):
         categories_list = []
-        for category in budget_service.get_categories("expense"):
+        for category in budget_service.get_categories(self._category_type):
             categories_list.append(category[1])
 
         def set_category(category_selection):
@@ -48,7 +49,7 @@ class AddExpenseView:
         lbl_category.grid(sticky=tk.constants.W)
         category_entry.grid(row=1, column=1, sticky=tk.constants.EW, padx=5, pady=5)
 
-    def _initialize_amount_field(self):
+    def _initalize_amount_field(self):
         lbl_amount = tk.Label(master=self._frame, text="Määrä (€)")
         self._amount_entry = tk.Entry(master=self._frame)
 
@@ -63,8 +64,8 @@ class AddExpenseView:
         self._description_entry.grid(row=3, column=1, sticky=tk.constants.EW, padx=5, pady=5)
 
     def _initialize_buttons(self):
-        btn_new_expense = ttk.Button(master=self._frame, text="Lisää meno", command=self._handle_add_expense)
-        btn_new_expense.grid(row=4, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+        btn_new_income = ttk.Button(master=self._frame, text="Lisää tapahtuma", command=self._handle_add_transaction)
+        btn_new_income.grid(row=4, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
         btn_cancel = ttk.Button(master=self._frame, text="Peruuta", command=self._show_budget_view)
         btn_cancel.grid(row=5, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
@@ -76,7 +77,7 @@ class AddExpenseView:
     def _hide_error(self):
         self._error_label.grid_remove()
 
-    def _handle_add_expense(self):
+    def _handle_add_transaction(self):
         date_entry = self._date_entry.get()
         date = f"{date_entry[6:]}-{date_entry[3:5]}-{date_entry[:2]}"
         category = self._category_entry
@@ -90,8 +91,8 @@ class AddExpenseView:
             self._display_error("Kuvauksen maksimipituus on 500 merkkiä.")
 
         try:
-            if self._category_entry and len(description) <= 500:
-                budget_service.add_transaction(date, "expense", amount, category, description)
+            if self._category_entry:
+                budget_service.add_transaction(date, self._category_type, amount, category, description)
                 self._show_budget_view()
         except AmountInWrongFormatError:
             self._display_error("Syötä määrä muodossa 0,00 tai 0.00.")
@@ -107,7 +108,7 @@ class AddExpenseView:
 
         self._initialize_date_field()
         self._initialize_category_selection()
-        self._initialize_amount_field()
+        self._initalize_amount_field()
         self._initialize_description_field()
         self._initialize_buttons()
 

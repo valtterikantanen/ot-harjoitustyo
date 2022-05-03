@@ -6,11 +6,10 @@ from tkinter import ttk, messagebox
 from services.budget_service import budget_service
 
 class BudgetView:
-    def __init__(self, root, show_login_view, show_new_expense_view, show_new_income_view, show_category_view, show_edit_transaction_view):
+    def __init__(self, root, show_login_view, show_add_transaction_view, show_category_view, show_edit_transaction_view):
         self._root = root
         self._show_login_view = show_login_view
-        self._show_new_expense_view = show_new_expense_view
-        self._show_new_income_view = show_new_income_view
+        self._show_add_transaction_view = show_add_transaction_view
         self._show_category_view = show_category_view
         self._show_edit_transaction_view = show_edit_transaction_view
         self._selected_transaction_id = None
@@ -94,11 +93,17 @@ class BudgetView:
         budget_service.logout_user()
         self._show_login_view()
 
+    def _handle_show_new_expense_view(self):
+        self._show_add_transaction_view("expense")
+
+    def _handle_show_new_income_view(self):
+        self._show_add_transaction_view("income")
+
     def _initialize_buttons(self):
-        btn_new_expense = ttk.Button(master=self._frame, text="Lisää uusi meno", command=self._show_new_expense_view)
+        btn_new_expense = ttk.Button(master=self._frame, text="Lisää uusi meno", command=self._handle_show_new_expense_view)
         btn_new_expense.grid(row=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
-        btn_new_income = ttk.Button(master=self._frame, text="Lisää uusi tulo", command=self._show_new_income_view)
+        btn_new_income = ttk.Button(master=self._frame, text="Lisää uusi tulo", command=self._handle_show_new_income_view)
         btn_new_income.grid(row=3, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
         btn_show_categories = ttk.Button(master=self._frame, text="Tarkastele kategorioita", command=self._show_category_view)
