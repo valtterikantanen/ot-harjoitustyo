@@ -54,7 +54,7 @@ class BudgetService:
             InvalidUsernameOrPasswordError:
                 Virhe, joka tapahtuu, kun käyttäjänimi tai salasana on tyhjä.
         """
-        
+
         if self.user_repository.search_by_username(username):
             raise UsernameAlreadyExistsError()
         if password1 != password2:
@@ -140,7 +140,8 @@ class BudgetService:
         self.transaction_repository.add(Transaction(
             date, amount, category_id, self.user, description))
 
-    def update_transaction(self, transaction_id, date, category_type, amount, category, description=None):
+    def update_transaction(
+        self, transaction_id, date, category_type, amount, category, description=None):
         """Päivittää halutun tapahtuman tiedot.
 
         Args:
@@ -177,7 +178,7 @@ class BudgetService:
         Returns:
             Tapahtuma tuplena, jonka kenttinä on päivämäärä, summa, kategoria ja kuvaus.
         """
-        
+
         return self.transaction_repository.get_transaction(transaction_id)
 
     def delete_transaction(self, transaction_id):
@@ -189,12 +190,13 @@ class BudgetService:
 
         self.transaction_repository.delete(transaction_id)
 
-    def get_categories(self, category_type):
+    def get_categories(self, category_type=None):
         """Hakee nykyisen käyttäjän kategoriat.
 
         Args:
             category_type:
-                Haettavien kategorioiden tyyppi ('expense' jos meno, 'income' jos tulo).
+                Vapaaehtoinen, oletuksena None, jolloin haetaan sekä meno- että tulokategoriat.
+                Jos halutaan vain toiset, niin parametrin arvo joko 'expense' tai 'income'.
 
         Returns:
             Lista kategorioista.
