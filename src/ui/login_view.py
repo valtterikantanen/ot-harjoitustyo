@@ -54,9 +54,6 @@ class LoginView:
         except UserNotFoundError:
             self._display_error(f"Käyttäjää {username} ei löytynyt.")
 
-        if budget_service.login_user(username, password):
-            self._handle_login()
-
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
 
