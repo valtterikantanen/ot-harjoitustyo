@@ -15,6 +15,8 @@ class BudgetView:
         self._show_edit_transaction_view = show_edit_transaction_view
         self._selected_transaction_id = None
         self._frame = None
+        self._show_expenses = tk.BooleanVar()
+        self._show_incomes = tk.BooleanVar()
 
         self._initialize()
 
@@ -29,8 +31,19 @@ class BudgetView:
         lbl_username = tk.Label(master=self._frame, text=f"Käyttäjätunnus: {username}")
         lbl_username.grid(row=0, columnspan=2, sticky=tk.constants.EW)
 
+    def _initialize_checkbuttons(self):
+        show_expenses = tk.Checkbutton(self._frame, text="Näytä menot", variable=self._show_expenses, command=self._initialize_transaction_list)
+        show_expenses.grid(row=1)
+
+        show_incomes = tk.Checkbutton(self._frame, text="Näytä tulot", variable=self._show_incomes, command=self._initialize_transaction_list)
+        show_incomes.grid(row=2)
+
     def _initialize_transaction_list(self):
-        transactions = transaction_service.get_all()
+        if self._show_expenses.get() and self._show_incomes.get():
+            transactions = transaction_service.get_all()
+        else:
+            category_type = "expense" if self._show_expenses.get() else "income"
+            transactions = transaction_service.get_all(category_type=category_type)
 
         transaction_list = ttk.Treeview(self._frame)
 
@@ -59,7 +72,7 @@ class BudgetView:
 
         scrollbar = ttk.Scrollbar(self._frame, orient=tk.VERTICAL, command=transaction_list.yview)
         transaction_list.configure(yscroll=scrollbar.set)
-        scrollbar.grid(row=1, column=1, sticky=tk.constants.NSEW)
+        scrollbar.grid(row=3, column=1, sticky=tk.constants.NSEW)
 
         for i in range(len(transactions)):
             transaction_id = transactions[i][0]
@@ -69,9 +82,10 @@ class BudgetView:
             category = transactions[i][3]
             description = transactions[i][4]
             tag = "red" if amount[0] == "−" else "green"
-            transaction_list.insert(parent="", index="end", iid=i, text="", values=(transaction_id, date, amount, category, description), tags=tag)
 
-        transaction_list.grid(row=1, column=0, sticky=tk.constants.NSEW, padx=5, pady=5)
+            transaction_list.insert(parent="", index="end", iid=i, text="", values=(transaction_id, date, amount, category, description), tags=tag)
+            
+        transaction_list.grid(row=3, column=0, sticky=tk.constants.NSEW, padx=5, pady=5)
         transaction_list.tag_configure("red", foreground="red")
         transaction_list.tag_configure("green", foreground="green")
 
@@ -93,10 +107,10 @@ class BudgetView:
                 messagebox.showerror(message="Valitse muokattava tapahtuma!")
 
         btn_edit_transaction = ttk.Button(master=self._frame, text="Muokkaa tapahtumaa", command=edit)
-        btn_edit_transaction.grid(row=4, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+        btn_edit_transaction.grid(row=6, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
         
         btn_delete_transaction = ttk.Button(master=self._frame, text="Poista tapahtuma", command=delete)
-        btn_delete_transaction.grid(row=5, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+        btn_delete_transaction.grid(row=7, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
     def _handle_log_out(self):
         user_service.logout()
@@ -110,10 +124,10 @@ class BudgetView:
 
     def _initialize_buttons(self):
         btn_new_expense = ttk.Button(master=self._frame, text="Lisää uusi meno", command=self._handle_show_new_expense_view)
-        btn_new_expense.grid(row=2, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+        btn_new_expense.grid(row=4, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
         btn_new_income = ttk.Button(master=self._frame, text="Lisää uusi tulo", command=self._handle_show_new_income_view)
-        btn_new_income.grid(row=3, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+        btn_new_income.grid(row=5, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
         btn_show_categories = ttk.Button(master=self._frame, text="Tarkastele kategorioita", command=self._show_category_view)
         btn_show_categories.grid(columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
@@ -124,6 +138,12 @@ class BudgetView:
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
 
+        self._show_expenses.set(True)
+        self._show_incomes.set(True)
+
         self._initialize_username_label()
+        self._initialize_checkbuttons()
         self._initialize_transaction_list()
         self._initialize_buttons()
+
+

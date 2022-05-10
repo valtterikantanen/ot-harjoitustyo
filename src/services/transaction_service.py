@@ -101,20 +101,23 @@ class TransactionService:
 
         self.transaction_repository.update(transaction_id, date, amount, category_id, description)
 
-    def get_all(self, user_id=None):
+    def get_all(self, user_id=None, category_type=None):
         """Hakee nykyisen käyttäjän tapahtumat.
 
         Args:
             user_id:
                 Sen käyttäjän id, jonka tapahtumat haetaan. Vapaaehtoinen, oletuksen None, jolloin
                 haetaan nykyisen käyttäjän tapahtumat.
+            category_type:
+                Vapaaehtoinen, oletuksena None, jolloin haetaan sekä menot että tulot. Jos halutaan
+                vain menot, parametrin arvo on 'expense' ja jos vain menot, niin 'income'.
 
         Returns:
             Lista käyttäjän tapahtumista.
         """
         if not user_id:
             user_id = self.user_repository.get_user_id(self.user_service.user.username)
-        return self.transaction_repository.find_all(user_id)
+        return self.transaction_repository.find_all(user_id, category_type)
 
     def get_one(self, transaction_id):
         """Hakee yksittäisen tapahtuman.

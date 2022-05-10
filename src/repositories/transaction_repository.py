@@ -66,20 +66,35 @@ class TransactionRepository:
 
         return transaction
 
-    def find_all(self, user_id):
+    def find_all(self, user_id, category_type=None):
         """Palauttaa kaikki käyttäjän tapahtumat.
 
         Args:
-            user_id: Sen käyttäjän id, jonka tapahtumat haetaan.
+            user_id:
+                Sen käyttäjän id, jonka tapahtumat haetaan.
+            category_type:
+                Vapaaehtoinen, oletuksena None, jolloin haetaan sekä menot että tulot. Jos halutaan
+                vain menot, parametrin arvo on 'expense' ja jos vain menot, niin 'income'.
 
         Returns:
             Lista käyttäjän tapahtumista.
         """
 
-        transactions = self.database.execute(
-            "SELECT T.id, T.date, T.amount, C.name AS category, T.description FROM Transactions T,"
-            "Categories C WHERE T.user_id=? AND T.category_id=C.id ORDER BY T.date DESC",
-            [user_id]).fetchall()
+        if not category_type:
+            transactions = self.database.execute(
+                "SELECT T.id, T.date, T.amount, C.name AS category, T.description FROM "
+                "Transactions T, Categories C WHERE T.user_id=? AND T.category_id=C.id "
+                "ORDER BY T.date DESC", [user_id]).fetchall()
+        elif category_type == "expense":
+            transactions = self.database.execute(
+                "SELECT T.id, T.date, T.amount, C.name AS category, T.description FROM "
+                "Transactions T, Categories C WHERE T.user_id=? AND T.category_id=C.id "
+                "AND T.amount < 0 ORDER BY T.date DESC", [user_id]).fetchall()
+        elif category_type == "income":
+            transactions = self.database.execute(
+                "SELECT T.id, T.date, T.amount, C.name AS category, T.description FROM "
+                "Transactions T, Categories C WHERE T.user_id=? AND T.category_id=C.id "
+                "AND T.amount >= 0 ORDER BY T.date DESC", [user_id]).fetchall()
 
         return transactions
 
