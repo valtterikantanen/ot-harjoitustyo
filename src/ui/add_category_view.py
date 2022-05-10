@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
 
-from services.budget_service import budget_service
+from services.category_service import category_service
 
 class AddCategoryView:
     def __init__(self, root, show_category_view):
@@ -72,7 +72,7 @@ class AddCategoryView:
             category_type = "income"
 
         if self._type_entry and len(name) > 0:
-            budget_service.add_category(name, category_type)
+            category_service.add(name, category_type)
             self._show_category_view()
 
     def _initialize(self):

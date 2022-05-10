@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from services.budget_service import budget_service, UserNotFoundError, WrongPasswordError
+from services.user_service import user_service, UserNotFoundError, WrongPasswordError
 
 class LoginView:
     def __init__(self, root, handle_login, handle_display_create_user_view):
@@ -47,7 +47,7 @@ class LoginView:
         password = self._password_entry.get()
 
         try:
-            budget_service.login_user(username, password)
+            user_service.login(username, password)
             self._handle_login()
         except WrongPasswordError:
             self._display_error("Väärä salasana.")

@@ -1,6 +1,6 @@
 import unittest
 
-from services.budget_service import BudgetService
+from services.user_service import UserService
 from repositories.category_repository import CategoryRepository
 from build import build
 from database_connection import get_database
@@ -9,10 +9,10 @@ from database_connection import get_database
 class TestCategoryRepository(unittest.TestCase):
     def setUp(self):
         build()
-        self.budget_service = BudgetService()
+        self.user_service = UserService()
         self.category_repository = CategoryRepository(get_database())
-        self.budget_service.create_user("antero", "password123", "password123")
-        self.budget_service.login_user("antero", "password123")
+        self.user_service.create("antero", "password123", "password123")
+        self.user_service.login("antero", "password123")
 
     def test_get_all_categories(self):
         self.assertEqual(len(self.category_repository.get_categories()), 21)

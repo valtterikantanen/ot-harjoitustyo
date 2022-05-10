@@ -15,35 +15,31 @@ class TransactionRepository:
 
         self.database = database
 
-    def add(self, transaction):
+    def add(self, date, amount, category_id, user_id, description=None):
         """Tallentaa uuden tapahtuman tietokantaan.
 
         Args:
-            transaction: Tallennettava tapahtuma Transaction-oliona.
+            date: Päivämäärä merkkijonona (muodossa 'YYYY-MM-DD')
+            amount: Summa kokonaislukuna (esim. summa 99,68 € esitetään muodossa 9968).
+            category_id: Tapahtuman kategorian id.
+            user_id: Sen käyttäjän id, jonka tapahtuma on kyseessä.
+            description: Tapahtuman kuvaus. Vapaaehtoinen, oletuksena None.
         """
-
-        date = transaction.date
-        amount = transaction.amount
-        category_id = transaction.category_id
-        description = transaction.description
-        user_id = user_repository.get_user_id(transaction.user.username)
 
         self.database.execute(
             "INSERT INTO Transactions (date, amount, category_id, description, user_id) "
             "VALUES (?, ?, ?, ?, ?)", [date, amount, category_id, description, user_id])
 
-    def update(self, transaction_id, transaction):
+    def update(self, transaction_id, date, amount, category_id, description):
         """Päivittää halutun tapahtuman tiedot tietokantaan.
 
         Args:
             transaction_id: Päivitettävän tapahtuman id.
-            transaction: Päivitettävä tapahtuma Transaction-oliona.
+            date: Päivämäärä merkkijonona (muodossa 'YYYY-MM-DD')
+            amount: Summa kokonaislukuna (esim. summa 99,68 € esitetään muodossa 9968).
+            category_id: Tapahtuman kategorian id.
+            description: Tapahtuman kuvaus. Vapaaehtoinen, oletuksena None.
         """
-
-        date = transaction.date
-        amount = transaction.amount
-        category_id = transaction.category_id
-        description = transaction.description
 
         self.database.execute(
             "UPDATE Transactions SET date=?, amount=?, category_id=?, description=? WHERE id=?",

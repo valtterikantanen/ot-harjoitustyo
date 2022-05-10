@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
 
-from services.budget_service import budget_service, AmountInWrongFormatError, TooBigNumberError
+from services.transaction_service import transaction_service, AmountInWrongFormatError, TooBigNumberError
+from services.category_service import category_service
 
 class AddTransactionView:
     def __init__(self, root, show_budget_view, category_type):
@@ -34,7 +35,7 @@ class AddTransactionView:
 
     def _initialize_category_selection(self):
         categories_list = []
-        for category in budget_service.get_categories(self._category_type):
+        for category in category_service.get_all(self._category_type):
             categories_list.append(category[1])
 
         def set_category(category_selection):
@@ -92,7 +93,7 @@ class AddTransactionView:
 
         try:
             if self._category_entry:
-                budget_service.add_transaction(date, self._category_type, amount, category, description)
+                transaction_service.create(date, self._category_type, amount, category, description)
                 self._show_budget_view()
         except AmountInWrongFormatError:
             self._display_error("Tarkista summa!\n• Desimaalierottimena voi käyttää pilkkua tai pistettä.\n• Kentässä ei voi olla kirjaimia eikä mm. miinus- tai €-merkkejä.\n• Älä käytä tuhaterottimia.")

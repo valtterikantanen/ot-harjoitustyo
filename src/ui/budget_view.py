@@ -3,7 +3,8 @@ from datetime import datetime
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-from services.budget_service import budget_service
+from services.transaction_service import transaction_service
+from services.user_service import user_service
 
 class BudgetView:
     def __init__(self, root, show_login_view, show_add_transaction_view, show_category_view, show_edit_transaction_view):
@@ -24,12 +25,12 @@ class BudgetView:
         self._frame.destroy()
 
     def _initialize_username_label(self):
-        username = budget_service.user.username
+        username = user_service.user.username
         lbl_username = tk.Label(master=self._frame, text=f"Käyttäjätunnus: {username}")
         lbl_username.grid(row=0, columnspan=2, sticky=tk.constants.EW)
 
     def _initialize_transaction_list(self):
-        transactions = budget_service.find_transactions()
+        transactions = transaction_service.get_all()
 
         transaction_list = ttk.Treeview(self._frame)
 
@@ -79,7 +80,7 @@ class BudgetView:
             if selected_item:
                 answer = messagebox.askyesno(message="Haluatko varmasti poistaa tapahtuman?", icon="warning")
                 if answer:
-                    budget_service.delete_transaction(self._selected_transaction_id)
+                    transaction_service.delete(self._selected_transaction_id)
                     transaction_list.delete(selected_item)
             else:
                 messagebox.showerror(message="Valitse poistettava tapahtuma!")
@@ -98,7 +99,7 @@ class BudgetView:
         btn_delete_transaction.grid(row=5, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
 
     def _handle_log_out(self):
-        budget_service.logout_user()
+        user_service.logout()
         self._show_login_view()
 
     def _handle_show_new_expense_view(self):

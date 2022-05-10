@@ -3,7 +3,8 @@ from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
 from datetime import datetime
 
-from services.budget_service import budget_service, AmountInWrongFormatError, TooBigNumberError
+from services.transaction_service import transaction_service, AmountInWrongFormatError, TooBigNumberError
+from services.category_service import category_service
 
 class EditTransactionView:
     def __init__(self, root, show_budget_view, transaction_id):
@@ -45,7 +46,7 @@ class EditTransactionView:
         self._category_entry = self._transaction[2]
         categories_list = []
 
-        for category in budget_service.get_categories(self._category_type):
+        for category in category_service.get_all(self._category_type):
             categories_list.append(category[1])
 
         def set_category(category_selection):
@@ -103,7 +104,7 @@ class EditTransactionView:
 
         try:
             if len(description) <= 50:
-                budget_service.update_transaction(self._transaction_id, date, self._category_type, amount, category, description)
+                transaction_service.update(self._transaction_id, date, self._category_type, amount, category, description)
                 messagebox.showinfo(message="Tiedot päivitetty!")
                 self._show_budget_view()
         except AmountInWrongFormatError:
@@ -114,7 +115,7 @@ class EditTransactionView:
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
 
-        self._transaction = budget_service.get_transaction(self._transaction_id)
+        self._transaction = transaction_service.get_one(self._transaction_id)
 
         self._amount_entry = self._transaction[1]
         self._category_type = "expense" if self._amount_entry < 0 else "income"

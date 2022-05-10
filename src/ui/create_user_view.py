@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from services.budget_service import budget_service, PasswordsDontMatchError, UsernameAlreadyExistsError, InvalidUsernameOrPasswordError
+from services.user_service import user_service, PasswordsDontMatchError, UsernameAlreadyExistsError, InvalidUsernameOrPasswordError
 
 class CreateUserView:
     def __init__(self, root, show_budget_view, show_login_view):
@@ -56,8 +56,8 @@ class CreateUserView:
         password2 = self._confirm_password_entry.get()
 
         try:
-            budget_service.create_user(username, password1, password2)
-            budget_service.login_user(username, password1)
+            user_service.create(username, password1, password2)
+            user_service.login(username, password1)
             self._show_budget_view()
         except PasswordsDontMatchError:
             self._display_error("Salasanat eivät täsmää!")
