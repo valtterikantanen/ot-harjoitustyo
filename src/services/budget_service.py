@@ -121,7 +121,7 @@ class BudgetService:
         except ValueError as exc:
             raise AmountInWrongFormatError() from exc
 
-        if amount < -9223372036854775808 or amount > 9223372036854775807:
+        if amount < -999_999_999 or amount > 999_999_999:
             raise TooBigNumberError()
 
         return amount

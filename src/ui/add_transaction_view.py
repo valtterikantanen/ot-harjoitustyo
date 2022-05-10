@@ -58,7 +58,7 @@ class AddTransactionView:
 
     def _initialize_description_field(self):
         lbl_description = tk.Label(master=self._frame, text="Kuvaus")
-        self._description_entry = tk.Text(master=self._frame, height=5, width=50)
+        self._description_entry = tk.Text(master=self._frame, height=2, width=50)
 
         lbl_description.grid(sticky=tk.constants.W)
         self._description_entry.grid(row=3, column=1, sticky=tk.constants.EW, padx=5, pady=5)
@@ -87,8 +87,8 @@ class AddTransactionView:
         if not self._category_entry:
             self._display_error("Valitse kategoria!")
 
-        if len(description) > 500:
-            self._display_error("Kuvauksen maksimipituus on 500 merkkiä.")
+        if len(description) > 50:
+            self._display_error("Kuvauksen maksimipituus on 50 merkkiä.")
 
         try:
             if self._category_entry:
@@ -97,7 +97,7 @@ class AddTransactionView:
         except AmountInWrongFormatError:
             self._display_error("Tarkista summa!\n• Desimaalierottimena voi käyttää pilkkua tai pistettä.\n• Kentässä ei voi olla kirjaimia eikä mm. miinus- tai €-merkkejä.\n• Älä käytä tuhaterottimia.")
         except TooBigNumberError:
-            self._display_error("Liian suuri määrä!")
+            self._display_error("Määrän on oltava välillä 0...9 999 999,99 €.")
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)

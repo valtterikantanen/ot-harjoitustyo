@@ -71,7 +71,7 @@ class EditTransactionView:
 
     def _initialize_description_field(self):
         lbl_description = tk.Label(master=self._frame, text="Kuvaus")
-        self._description_entry = tk.Text(master=self._frame, height=5, width=50)
+        self._description_entry = tk.Text(master=self._frame, height=2, width=50)
         self._description_entry.insert(tk.INSERT, self._transaction[3])
 
         lbl_description.grid(sticky=tk.constants.W)
@@ -98,18 +98,18 @@ class EditTransactionView:
         amount = self._amount_entry.get()
         description = self._description_entry.get("1.0", "end-1c")
 
-        if len(description) > 500:
-            self._display_error("Kuvauksen maksimipituus on 500 merkkiä.")
+        if len(description) > 50:
+            self._display_error("Kuvauksen maksimipituus on 50 merkkiä.")
 
         try:
-            if len(description) <= 500:
+            if len(description) <= 50:
                 budget_service.update_transaction(self._transaction_id, date, self._category_type, amount, category, description)
                 messagebox.showinfo(message="Tiedot päivitetty!")
                 self._show_budget_view()
         except AmountInWrongFormatError:
-            self._display_error("Syötä määrä muodossa 0,00 tai 0.00.")
+            self._display_error("Tarkista summa!\n• Desimaalierottimena voi käyttää pilkkua tai pistettä.\n• Kentässä ei voi olla kirjaimia eikä mm. miinus- tai €-merkkejä.\n• Älä käytä tuhaterottimia.")
         except TooBigNumberError:
-            self._display_error("Liian suuri määrä!")
+            self._display_error("Määrän on oltava välillä 0...9 999 999,99 €.")
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
