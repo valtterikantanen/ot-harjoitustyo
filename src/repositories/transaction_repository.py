@@ -1,5 +1,4 @@
 from database_connection import get_database
-from repositories.user_repository import user_repository
 
 
 class TransactionRepository:

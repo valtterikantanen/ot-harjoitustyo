@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from tkcalendar import DateEntry
 
 from services.category_service import category_service
 

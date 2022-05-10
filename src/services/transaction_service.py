@@ -1,4 +1,3 @@
-from entities.transaction import Transaction
 from repositories.user_repository import user_repository
 from repositories.transaction_repository import transaction_repository
 from repositories.category_repository import category_repository
