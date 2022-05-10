@@ -34,6 +34,22 @@ class CategoryService:
             user_id = self.user_repository.get_user_id(self.user_service.user.username)
         return self.category_repository.get_categories(user_id, category_type)
 
+    def get_categories_in_use(self, user_id=None):
+        """Hakee ne kategoriat, joissa käyttäjällä on vähintään yksi meno.
+
+        Args:
+            user_id:
+                Vapaaehtoinen, oletuksena None, jolloin haetaan nykyisen käyttäjän kategoriat.
+                Jos halutaan muun käyttäjän kategoriat, tulee parametrinä antaa käyttäjän id.
+            
+        Returns:
+            Lista kategorioista.
+        """
+
+        if not user_id:
+            user_id = self.user_repository.get_user_id(self.user_service.user.username)
+        return self.category_repository.get_categories_in_use(user_id)
+
     def delete(self, category_id, user_id=None):
         """Poistaa kategorian näkyvistä.
 

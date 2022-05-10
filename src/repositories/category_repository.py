@@ -50,6 +50,22 @@ class CategoryRepository:
 
         return categories
 
+    def get_categories_in_use(self, user_id):
+        """Hakee ne kategoriat, joissa käyttäjällä on vähintään yksi meno.
+
+        Args:
+            user_id: Sen käyttäjän id, jonka kategoriat haetaan.
+            
+        Returns:
+            Lista kategorioista.
+        """
+
+        categories = self.database.execute(
+            "SELECT DISTINCT C.id, C.name from Transactions T, Categories C WHERE T.user_id=? AND "
+            "C.id=T.category_id ORDER BY C.id", [user_id]).fetchall()
+
+        return categories
+
     def add(self, name, category_type, user_id):
         """Tallentaa uuden kategorian tietokantaan. Jos halutunniminen kategoria on jo olemassa,
         se vain lisätään käyttäjän näkemiin kategorioihin.
