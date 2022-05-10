@@ -95,7 +95,7 @@ class AddTransactionView:
                 budget_service.add_transaction(date, self._category_type, amount, category, description)
                 self._show_budget_view()
         except AmountInWrongFormatError:
-            self._display_error("Syötä määrä muodossa 0,00 tai 0.00.")
+            self._display_error("Tarkista summa!\n• Desimaalierottimena voi käyttää pilkkua tai pistettä.\n• Kentässä ei voi olla kirjaimia eikä mm. miinus- tai €-merkkejä.\n• Älä käytä tuhaterottimia.")
         except TooBigNumberError:
             self._display_error("Liian suuri määrä!")
 

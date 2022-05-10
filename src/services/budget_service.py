@@ -109,6 +109,10 @@ class BudgetService:
         """
 
         amount = amount.replace(",", ".")
+
+        if "-" in amount:
+            raise AmountInWrongFormatError()
+        
         if category_type == "expense":
             amount = f"-{amount}"
 
