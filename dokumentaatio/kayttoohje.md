@@ -24,6 +24,13 @@ Kirjautumisen tai rekisteröitymisen jälkeen siirrytään sovelluksen **pään�
 
 ![](./images/kayttoohje-budjettinakyma.png)
 
+Näytettäviä tapahtumia voi rajata seuraavasti:
+
+* Menot näytetään vain, jos ”Näytä menot” on valittuna
+* Tulot näytetään vain, jos ”Näytä tulot” on valittuna
+* Tapahtumat näytetään vain niistä kategorioista, jotka ovat valittuina listalla (oletuksena kaikki on valittu)
+* Tapahtumista näytetään vain ne, joiden ajankohta on alkupäivän ja loppupäivän välillä
+
 Näkymästä pääsee lisäämään uusia tapahtumia valitsemalla ”Lisää uusi meno” tai ”Lisää uusi tulo”. Olemassaolevia tapahtumia voi muokata klikkaamalla muokattavaa tapahtumaa ja valitsemalla ”Muokkaa tapahtumaa”. Tapahtuman voi poistaa kokonaan klikkaamalla poistettavaa tapahtumaa ja valitsemalla ”Poista tapahtuma”.
 
 Kategorioita (*Asuminen*, *Ruoka ja päivittäistavarat* jne.) pääsee tarkastelemaan, lisäämään ja poistamaan klikkaamalla ”Tarkastele kategorioita”. Klikkaamalla ”Kirjaudu ulos” käyttäjä kirjataan ulos sovelluksesta, jolloin ovellus siirtyy kirjautumisnäkymään.
@@ -40,9 +47,9 @@ Päivämäärän voi syöttää joko kirjoittamalla muodossa ”pp.kk.vvvv” ta
 
 Kategoria valitaan pudotusvalikon vaihtoehdoista. Päänäkymän valinnasta (”Lisää uusi meno” tai ”Lisää uusi tulo”) riippuen listassa näytetään vain joko meno- tai tulokategoriat.
 
-Määrä tulee syöttää joko kokonaislukuna tai desimaalimuodossa, jolloin desimaalierottimena voi käyttää pistettä tai pilkkua. Määrä syötetään positiivisena riippumatta siitä, onko kyseessä meno vai tulo. Muita merkkejä (esim. euron merkkiä €) ei tule sisällyttää kenttään.
+Määrä tulee syöttää ilman välilyöntejä joko kokonaislukuna tai desimaalimuodossa, jolloin desimaalierottimena voi käyttää pistettä tai pilkkua. Määrä syötetään positiivisena riippumatta siitä, onko kyseessä meno vai tulo. Muita merkkejä (esim. euron merkkiä €) ei tule sisällyttää kenttään. Suurin mahdollinen määrä on 9 999 999,99 €.
 
-Kuvaukseen voi sisällyttää mitä tahansa merkkejä, ja sen maksimipituus on 500 merkkiä.
+Kuvaukseen voi sisällyttää mitä tahansa merkkejä, ja sen maksimipituus on 50 merkkiä.
 
 Kun kaikki tiedot on kirjoitettu, tapahtuma lisätään painamalla ”Lisää tapahtuma”-painiketta, minkä jälkeen siirrytään takaisin päänäkymään. Myös painamalla ”Peruuta”-painiketta pääsee takaisin päänäkymään, jolloin tapahtumaa ei lisätä.
 
