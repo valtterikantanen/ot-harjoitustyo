@@ -115,6 +115,7 @@ class TransactionService:
         Returns:
             Lista käyttäjän tapahtumista.
         """
+
         if not user_id:
             user_id = self.user_repository.get_user_id(self.user_service.user.username)
         return self.transaction_repository.find_all(user_id, category_type)
@@ -130,6 +131,38 @@ class TransactionService:
         """
 
         return self.transaction_repository.get_transaction(transaction_id)
+
+    def get_minimum_date(self, user_id=None):
+        """Hakee käyttäjän vanhimman tapahtuman ajankohdan.
+
+        Args:
+            user_id:
+                Vapaaehtoinen, oletuksena None, jolloin haetaan nykyisen
+                käyttäjän vanhimman tapahtuman päivämäärä.
+
+        Returns:
+            Käyttäjän vanhimman tapahtuman päivämäärä merkkijonona muodossa 'YYYY-MM-DD'.
+        """
+
+        if not user_id:
+            user_id = self.user_repository.get_user_id(self.user_service.user.username)
+        return self.transaction_repository.get_minimum_date(user_id)
+
+    def get_maximum_date(self, user_id=None):
+        """Hakee käyttäjän uusimman tapahtuman ajankohdan.
+
+        Args:
+            user_id:
+                Vapaaehtoinen, oletuksena None, jolloin haetaan nykyisen
+                käyttäjän uusimman tapahtuman päivämäärä.
+
+        Returns:
+            Käyttäjän uusimman tapahtuman päivämäärä merkkijonona muodossa 'YYYY-MM-DD'.
+        """
+        
+        if not user_id:
+            user_id = self.user_repository.get_user_id(self.user_service.user.username)
+        return self.transaction_repository.get_maximum_date(user_id)
 
     def delete(self, transaction_id):
         """Poistaa tapahtuman.

@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
-from datetime import datetime
 
 from services.transaction_service import transaction_service, AmountInWrongFormatError, TooBigNumberError
 from services.category_service import category_service
@@ -30,14 +29,10 @@ class EditTransactionView:
         self._frame.destroy()
 
     def _initialize_date_field(self):
-        date_object = datetime.strptime(self._transaction[0], "%Y-%m-%d")
-        date_string = datetime.strftime(date_object, "%-d, %-m, %Y")
-        day = int(date_string.split(", ")[0])
-        month = int(date_string.split(", ")[1])
-        year = int(date_string.split(", ")[2])
+        date = self._transaction[0]
 
         lbl_date = tk.Label(master=self._frame, text="Päivämäärä")
-        self._date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=30, year=year, month=month, day=day)
+        self._date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=30, year=int(date[:4]), month=int(date[5:7]), day=int(date[8:]))
 
         lbl_date.grid(sticky=tk.constants.W)
         self._date_entry.grid(row=0, column=1, sticky=tk.constants.EW, padx=5, pady=5)

@@ -98,5 +98,34 @@ class TransactionRepository:
 
         return transactions
 
+    def get_minimum_date(self, user_id):
+        """Hakee käyttäjän vanhimman tapahtuman ajankohdan.
+
+        Args:
+            user_id: Sen käyttäjän id, jonka vanhimman tapahtuman ajankohta haetaan.
+
+        Returns:
+            Käyttäjän vanhimman tapahtuman päivämäärä merkkijonona muodossa 'YYYY-MM-DD'.
+        """
+
+        minimum_date = self.database.execute(
+            "SELECT MIN(date) FROM Transactions WHERE user_id=?", [user_id]).fetchone()[0]
+
+        return minimum_date
+
+    def get_maximum_date(self, user_id):
+        """Hakee käyttäjän uusimman tapahtuman ajankohdan.
+
+        Args:
+            user_id: Sen käyttäjän id, jonka uusimman tapahtuman ajankohta haetaan.
+
+        Returns:
+            Käyttäjän uusimman tapahtuman päivämäärä merkkijonona muodossa 'YYYY-MM-DD'.
+        """
+
+        maximum_date = self.database.execute(
+            "SELECT MAX(date) FROM Transactions WHERE user_id=?", [user_id]).fetchone()[0]
+
+        return maximum_date
 
 transaction_repository = TransactionRepository(get_database())
