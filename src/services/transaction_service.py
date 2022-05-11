@@ -1,3 +1,5 @@
+import re
+
 from repositories.user_repository import user_repository
 from repositories.transaction_repository import transaction_repository
 from repositories.category_repository import category_repository
@@ -7,6 +9,9 @@ class AmountInWrongFormatError(Exception):
     pass
 
 class TooBigNumberError(Exception):
+    pass
+
+class DateInWrongFormatError(Exception):
     pass
 
 
@@ -23,19 +28,22 @@ class TransactionService:
         self.category_repository = category_repository
         self.user_service = user_service
 
-    def validate_data(self, category_type, amount):
+    def validate_data(self, category_type, amount, date):
         """Validoi uuteen tai päivitettävään tapahtumaan liittyviä tietoja.
 
         Args:
             category_type: Tapahtumatyyppi ('expense' jos meno, 'income' jos tulo).
             amount: Summa merkkijonona (muodossa '0,00' tai '0.00').
+            date: Päivämäärä merkkijonona.
 
         Raises:
             AmountInWrongFormatError: Virhe, joka tapahtuu, kun summa on väärässä muodossa.
             TooBigNumberError: Virhe, joka tapahtuu, kun summa on liian suuri.
+            DateInWrongFormatError: Virhe, joka tapahtuu, kun päivämäärä on väärässä muodossa.
 
         Returns:
-            Summa kokonaislukuna (esim. summa 99,68 € esitetään muodossa 9968).
+            Tuple, jonka kenttinä on summa kokonaislukuna (esim. summa 99,68 € esitetään muodossa
+            9968) ja päivämäärä merkkijonona muodossa 'YYYY-MM-DD'.
         """
 
         amount = amount.replace(",", ".")
@@ -54,14 +62,19 @@ class TransactionService:
         if amount < -999_999_999 or amount > 999_999_999:
             raise TooBigNumberError()
 
-        return amount
+        if not re.match("^\d{2}\.\d{2}\.\d{4}$", date):
+            raise DateInWrongFormatError()
+        else:
+            date = f"{date[6:]}-{date[3:5]}-{date[:2]}"
+
+        return amount, date
 
     def create(self, date, category_type, amount, category, description=None, user_id=None):
         """Luo uuden tapahtuman.
 
         Args:
             date:
-                Päivämäärä merkkijonona (muodossa 'YYYY-MM-DD')
+                Päivämäärä merkkijonona (muodossa 'DD.MM.YYYY')
             category_type:
                 Tapahtumatyyppi ('expense' jos meno, 'income' jos tulo).
             amount:
@@ -75,7 +88,7 @@ class TransactionService:
                 lisätään nykyiselle käyttäjälle. 
         """
 
-        amount = self.validate_data(category_type, amount)
+        amount, date = self.validate_data(category_type, amount, date)
 
         category_id = self.category_repository.get_category_id(category)
 
@@ -89,14 +102,14 @@ class TransactionService:
 
         Args:
             transaction_id: Tapahtuman id.
-            date: Päivämäärä merkkijonona (muodossa 'YYYY-MM-DD')
+            date: Päivämäärä merkkijonona (muodossa 'DD.MM.YYYY').
             category_type: Tapahtumatyyppi ('expense' jos meno, 'income' jos tulo).
             amount: Summa merkkijonona (muodossa '0,00' tai '0.00').
             category: Tapahtuman kategoria
             description: Tapahtuman kuvaus. Vapaaehtoinen, oletuksena None.
         """
 
-        amount = self.validate_data(category_type, amount)
+        amount, date = self.validate_data(category_type, amount, date)
         category_id = self.category_repository.get_category_id(category)
 
         self.transaction_repository.update(transaction_id, date, amount, category_id, description)

@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
 
-from services.transaction_service import transaction_service, AmountInWrongFormatError, TooBigNumberError
+from services.transaction_service import transaction_service, AmountInWrongFormatError, TooBigNumberError, DateInWrongFormatError
 from services.category_service import category_service
 
 class EditTransactionView:
@@ -88,8 +88,7 @@ class EditTransactionView:
         self._error_label.grid_remove()
 
     def _handle_edit_transaction(self):
-        date_entry = self._date_entry.get()
-        date = f"{date_entry[6:]}-{date_entry[3:5]}-{date_entry[:2]}"
+        date = self._date_entry.get()
         category = self._category_entry
         amount = self._amount_entry.get()
         description = self._description_entry.get("1.0", "end-1c")
@@ -106,6 +105,8 @@ class EditTransactionView:
             self._display_error("Tarkista summa!\n• Desimaalierottimena voi käyttää pilkkua tai pistettä.\n• Kentässä ei voi olla kirjaimia eikä mm. miinus- tai €-merkkejä.\n• Älä käytä tuhaterottimia.")
         except TooBigNumberError:
             self._display_error("Määrän on oltava välillä 0...9 999 999,99 €.")
+        except DateInWrongFormatError:
+            self._display_error("Syötä päivämäärä muodossa '01.01.2020'.")
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
