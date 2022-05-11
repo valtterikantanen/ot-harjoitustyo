@@ -65,10 +65,10 @@ class LoginView:
         self._initialize_password_field()
 
         btn_login = tk.Button(master=self._frame, text="Kirjaudu sisään", command=self._handle_sign_in)
-        btn_login.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
+        btn_login.grid(columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         btn_sign_up = tk.Button(master=self._frame, text="Luo uusi käyttäjätili", command=self._handle_display_create_user_view)
-        btn_sign_up.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
+        btn_sign_up.grid(columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         frm_buttons = tk.Frame()
         frm_buttons.pack(fill=tk.X, ipadx=5, ipady=5)

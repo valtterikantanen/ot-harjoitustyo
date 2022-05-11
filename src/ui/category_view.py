@@ -32,8 +32,8 @@ class CategoryView:
 
         category_list.column("#0", width=0, stretch=tk.NO)
         category_list.column("id", anchor=tk.CENTER, width=50)
-        category_list.column("name", anchor=tk.CENTER, width=250)
-        category_list.column("type", anchor=tk.CENTER, width=75)
+        category_list.column("name", anchor=tk.W, width=250)
+        category_list.column("type", anchor=tk.W, width=75)
 
         category_list.heading("#0", text="", anchor=tk.CENTER)
         category_list.heading("id", text="ID", anchor=tk.CENTER)
@@ -60,13 +60,13 @@ class CategoryView:
                 messagebox.showerror(message="Valitse kategoria!")
 
         btn_add_category = ttk.Button(master=self._frame, text="Lisää kategoria", command=self._show_add_category_view)
-        btn_add_category.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+        btn_add_category.grid(sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         btn_delete_category = ttk.Button(master=self._frame, text="Poista kategoria", command=delete)
-        btn_delete_category.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+        btn_delete_category.grid(sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         btn_show_main_view = ttk.Button(master=self._frame, text="Palaa päänäkymään", command=self._show_budget_view)
-        btn_show_main_view.grid(sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+        btn_show_main_view.grid(sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)

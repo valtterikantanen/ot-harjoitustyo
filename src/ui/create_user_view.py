@@ -78,10 +78,10 @@ class CreateUserView:
         self._initialize_confirm_password_field()
 
         btn_sign_up = tk.Button(master=self._frame, text="Luo käyttäjätili", command=self._handle_signing_up)
-        btn_sign_up.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
+        btn_sign_up.grid(columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         btn_cancel = tk.Button(master=self._frame, text="Peruuta", command=self._show_login_view)
-        btn_cancel.grid(columnspan=2, sticky=tk.constants.EW, padx=5, pady=5)
+        btn_cancel.grid(columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         frm_buttons = tk.Frame()
         frm_buttons.pack(fill=tk.X, ipadx=5, ipady=5)

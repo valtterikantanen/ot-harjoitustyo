@@ -45,10 +45,10 @@ class AddCategoryView:
 
     def _initialize_buttons(self):
         btn_new_income = ttk.Button(master=self._frame, text="Lisää kategoria", command=self._handle_add_category)
-        btn_new_income.grid(row=2, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+        btn_new_income.grid(row=2, columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         btn_cancel = ttk.Button(master=self._frame, text="Peruuta", command=self._show_category_view)
-        btn_cancel.grid(row=3, columnspan=2, sticky=tk.constants.EW, padx=10, pady=10, ipadx=10, ipady=10)
+        btn_cancel.grid(row=3, columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
     def _display_error(self, message):
         self._error_message.set(message)

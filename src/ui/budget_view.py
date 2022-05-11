@@ -38,18 +38,18 @@ class BudgetView:
 
     def _initialize_checkbuttons(self):
         show_expenses = tk.Checkbutton(self._frame, text="Näytä menot", variable=self._show_expenses, command=self._initialize_transaction_list)
-        show_expenses.grid(row=2, padx=10, pady=10, sticky=tk.constants.SW)
+        show_expenses.grid(row=2, padx=5, pady=5, sticky=tk.constants.SW)
 
         show_incomes = tk.Checkbutton(self._frame, text="Näytä tulot", variable=self._show_incomes, command=self._initialize_transaction_list)
-        show_incomes.grid(row=3, padx=10, pady=10, sticky=tk.constants.NW)
+        show_incomes.grid(row=3, padx=5, pady=5, sticky=tk.constants.NW)
 
     def _initialize_category_listbox(self):
-        lbl_category_list = tk.Label(master=self._frame, text="Valitse kategoriat:")
+        lbl_category_list = tk.Label(master=self._frame, text="Valitse näytettävät kategoriat:")
         lbl_category_list.grid(row=1, column=1, sticky=tk.constants.SW)
 
         chosen_categories = tk.StringVar()
         all_categories = category_service.get_categories_in_use()
-        category_list = tk.Listbox(self._frame, listvariable=chosen_categories, width=50, height=8, selectmode=tk.MULTIPLE, exportselection=False)
+        category_list = tk.Listbox(self._frame, listvariable=chosen_categories, width=50, height=8, selectmode=tk.MULTIPLE, exportselection=False, selectbackground="#3399FF", selectforeground="#FFFFFF")
 
         for category in all_categories:
             category_list.insert(category[0], category[1])
@@ -63,7 +63,7 @@ class BudgetView:
 
         category_list.bind("<<ListboxSelect>>", _update_chosen_categories)
 
-        category_list.grid(row=2, column=1, rowspan=2, sticky=tk.constants.EW, pady=5)
+        category_list.grid(row=2, column=1, rowspan=2, pady=(0,10), sticky=tk.constants.EW)
 
     def _initialize_date_fields(self):
         today = datetime.now().strftime("%Y-%m-%d")
@@ -73,17 +73,17 @@ class BudgetView:
         start_date = tk.StringVar()
         end_date = tk.StringVar()
 
-        lbl_start_date = tk.Label(master=self._frame, text="Alkupäivä")
+        lbl_start_date = tk.Label(master=self._frame, text="Alkupäivä:")
         self._start_date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=10, year=int(min_date[:4]), month=int(min_date[5:7]), day=int(min_date[8:]), textvariable=start_date)
 
-        lbl_start_date.grid(row=2, column=2, padx=10, pady=10, sticky=tk.constants.SE)
-        self._start_date_entry.grid(row=2, column=3, padx=10, pady=10, sticky=tk.constants.S)
+        lbl_start_date.grid(row=2, column=2, padx=5, pady=5, sticky=tk.constants.SE)
+        self._start_date_entry.grid(row=2, column=3, padx=5, pady=5, sticky=tk.constants.S)
 
-        lbl_end_date = tk.Label(master=self._frame, text="Loppupäivä")
+        lbl_end_date = tk.Label(master=self._frame, text="Loppupäivä:")
         self._end_date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=10, year=int(max_date[:4]), month=int(max_date[5:7]), day=int(max_date[8:]), textvariable=end_date)
 
-        lbl_end_date.grid(row=3, column=2, padx=10, pady=10, sticky=tk.constants.NE)
-        self._end_date_entry.grid(row=3, column=3, padx=10, pady=10, sticky=tk.constants.N)
+        lbl_end_date.grid(row=3, column=2, padx=5, pady=5, sticky=tk.constants.NE)
+        self._end_date_entry.grid(row=3, column=3, padx=5, pady=5, sticky=tk.constants.N)
 
         self._start_date_entry = start_date.get()
         self._end_date_entry = end_date.get()
@@ -118,10 +118,10 @@ class BudgetView:
 
         transaction_list.column("#0", width=0, stretch=tk.NO)
         transaction_list.column("id", width=0, stretch=tk.NO)
-        transaction_list.column("date", anchor=tk.W, width=95)
+        transaction_list.column("date", anchor=tk.W, width=110)
         transaction_list.column("amount", anchor=tk.E, width=120)
         transaction_list.column("category", anchor=tk.E, width=180)
-        transaction_list.column("description", anchor=tk.W, width=400)
+        transaction_list.column("description", anchor=tk.W, width=350)
 
         transaction_list.heading("#0", text="", anchor=tk.CENTER)
         transaction_list.heading("id", text="", anchor=tk.CENTER)
@@ -136,6 +136,13 @@ class BudgetView:
         transaction_list.configure(yscroll=scrollbar.set)
         scrollbar.grid(row=4, column=4, sticky=tk.constants.NS)
 
+        if self._start_date_entry and self._end_date_entry:
+            start_date_datetime_object = datetime.strptime(self._start_date_entry, "%d.%m.%Y")
+            end_date_datetime_object = datetime.strptime(self._end_date_entry, "%d.%m.%Y")
+            if start_date_datetime_object > end_date_datetime_object:
+                self._root.focus_set()
+                messagebox.showerror(message="Loppupäivä ei voi olla ennen alkupäivää!")
+
         for i in range(len(transactions)):
             transaction_id = transactions[i][0]
             datetime_object = datetime.strptime(transactions[i][1], "%Y-%m-%d")
@@ -145,16 +152,10 @@ class BudgetView:
             description = transactions[i][4]
             tag = "red" if amount[0] == "−" else "green"
 
-            if self._start_date_entry and self._end_date_entry:
-                start_date_datetime_object = datetime.strptime(self._start_date_entry, "%d.%m.%Y")
-                end_date_datetime_object = datetime.strptime(self._end_date_entry, "%d.%m.%Y")
-
             if self._chosen_categories is None or category in self._chosen_categories:
                 if self._start_date_entry and self._end_date_entry:
                     if start_date_datetime_object <= datetime_object and end_date_datetime_object >= datetime_object:
                         transaction_list.insert(parent="", index="end", iid=i, text="", values=(transaction_id, date, amount, category, description), tags=tag)
-                    else:
-                        pass
                 else:
                     transaction_list.insert(parent="", index="end", iid=i, text="", values=(transaction_id, date, amount, category, description), tags=tag)
             
