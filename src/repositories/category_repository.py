@@ -62,7 +62,7 @@ class CategoryRepository:
 
         categories = self.database.execute(
             "SELECT DISTINCT C.id, C.name from Transactions T, Categories C WHERE T.user_id=? AND "
-            "C.id=T.category_id ORDER BY C.id", [user_id]).fetchall()
+            "C.id=T.category_id ORDER BY C.name", [user_id]).fetchall()
 
         return categories
 

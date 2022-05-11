@@ -38,15 +38,18 @@ class BudgetView:
 
     def _initialize_checkbuttons(self):
         show_expenses = tk.Checkbutton(self._frame, text="Näytä menot", variable=self._show_expenses, command=self._initialize_transaction_list)
-        show_expenses.grid(row=1, padx=10, pady=10, sticky=tk.constants.SW)
+        show_expenses.grid(row=2, padx=10, pady=10, sticky=tk.constants.SW)
 
         show_incomes = tk.Checkbutton(self._frame, text="Näytä tulot", variable=self._show_incomes, command=self._initialize_transaction_list)
-        show_incomes.grid(row=2, padx=10, pady=10, sticky=tk.constants.NW)
+        show_incomes.grid(row=3, padx=10, pady=10, sticky=tk.constants.NW)
 
     def _initialize_category_listbox(self):
+        lbl_category_list = tk.Label(master=self._frame, text="Valitse kategoriat:")
+        lbl_category_list.grid(row=1, column=1, sticky=tk.constants.SW)
+
         chosen_categories = tk.StringVar()
         all_categories = category_service.get_categories_in_use()
-        category_list = tk.Listbox(self._frame, listvariable=chosen_categories, width=50, height=max(8, len(all_categories)+1), selectmode=tk.MULTIPLE, exportselection=False)
+        category_list = tk.Listbox(self._frame, listvariable=chosen_categories, width=50, height=8, selectmode=tk.MULTIPLE, exportselection=False)
 
         for category in all_categories:
             category_list.insert(category[0], category[1])
@@ -60,7 +63,7 @@ class BudgetView:
 
         category_list.bind("<<ListboxSelect>>", _update_chosen_categories)
 
-        category_list.grid(row=1, column=1, rowspan=2, sticky=tk.constants.EW, padx=5, pady=5)
+        category_list.grid(row=2, column=1, rowspan=2, sticky=tk.constants.EW, pady=5)
 
     def _initialize_date_fields(self):
         today = datetime.now().strftime("%Y-%m-%d")
@@ -73,14 +76,14 @@ class BudgetView:
         lbl_start_date = tk.Label(master=self._frame, text="Alkupäivä")
         self._start_date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=10, year=int(min_date[:4]), month=int(min_date[5:7]), day=int(min_date[8:]), textvariable=start_date)
 
-        lbl_start_date.grid(row=1, column=2, padx=10, pady=10, sticky=tk.constants.SE)
-        self._start_date_entry.grid(row=1, column=3, padx=10, pady=10, sticky=tk.constants.S)
+        lbl_start_date.grid(row=2, column=2, padx=10, pady=10, sticky=tk.constants.SE)
+        self._start_date_entry.grid(row=2, column=3, padx=10, pady=10, sticky=tk.constants.S)
 
         lbl_end_date = tk.Label(master=self._frame, text="Loppupäivä")
         self._end_date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=10, year=int(max_date[:4]), month=int(max_date[5:7]), day=int(max_date[8:]), textvariable=end_date)
 
-        lbl_end_date.grid(row=2, column=2, padx=10, pady=10, sticky=tk.constants.NE)
-        self._end_date_entry.grid(row=2, column=3, padx=10, pady=10, sticky=tk.constants.N)
+        lbl_end_date.grid(row=3, column=2, padx=10, pady=10, sticky=tk.constants.NE)
+        self._end_date_entry.grid(row=3, column=3, padx=10, pady=10, sticky=tk.constants.N)
 
         self._start_date_entry = start_date.get()
         self._end_date_entry = end_date.get()
@@ -131,7 +134,7 @@ class BudgetView:
 
         scrollbar = ttk.Scrollbar(self._frame, orient=tk.VERTICAL, command=transaction_list.yview)
         transaction_list.configure(yscroll=scrollbar.set)
-        scrollbar.grid(row=3, column=4, sticky=tk.constants.NS)
+        scrollbar.grid(row=4, column=4, sticky=tk.constants.NS)
 
         for i in range(len(transactions)):
             transaction_id = transactions[i][0]
@@ -155,7 +158,7 @@ class BudgetView:
                 else:
                     transaction_list.insert(parent="", index="end", iid=i, text="", values=(transaction_id, date, amount, category, description), tags=tag)
             
-        transaction_list.grid(row=3, column=0, columnspan=4, sticky=tk.constants.EW, padx=5, pady=5)
+        transaction_list.grid(row=4, column=0, padx=(10, 0), columnspan=4, sticky=tk.constants.EW)
         transaction_list.tag_configure("red", foreground="red")
         transaction_list.tag_configure("green", foreground="green")
 
@@ -177,10 +180,10 @@ class BudgetView:
                 messagebox.showerror(message="Valitse muokattava tapahtuma!")
 
         btn_edit_transaction = ttk.Button(master=self._frame, text="Muokkaa tapahtumaa", command=edit)
-        btn_edit_transaction.grid(row=8, columnspan=5, sticky=tk.constants.EW, padx=5, pady=5, ipadx=5, ipady=5)
+        btn_edit_transaction.grid(row=9, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
         
         btn_delete_transaction = ttk.Button(master=self._frame, text="Poista tapahtuma", command=delete)
-        btn_delete_transaction.grid(row=9, columnspan=5, sticky=tk.constants.EW, padx=5, pady=5, ipadx=5, ipady=5)
+        btn_delete_transaction.grid(row=10, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
     def _handle_log_out(self):
         user_service.logout()
@@ -194,16 +197,16 @@ class BudgetView:
 
     def _initialize_buttons(self):
         btn_new_expense = ttk.Button(master=self._frame, text="Lisää uusi meno", command=self._handle_show_new_expense_view)
-        btn_new_expense.grid(row=6, columnspan=5, sticky=tk.constants.EW, padx=5, pady=5, ipadx=5, ipady=5)
+        btn_new_expense.grid(row=7, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         btn_new_income = ttk.Button(master=self._frame, text="Lisää uusi tulo", command=self._handle_show_new_income_view)
-        btn_new_income.grid(row=7, columnspan=5, sticky=tk.constants.EW, padx=5, pady=5, ipadx=5, ipady=5)
+        btn_new_income.grid(row=8, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         btn_show_categories = ttk.Button(master=self._frame, text="Tarkastele kategorioita", command=self._show_category_view)
-        btn_show_categories.grid(columnspan=5, sticky=tk.constants.EW, padx=5, pady=5, ipadx=5, ipady=5)
+        btn_show_categories.grid(columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         btn_log_out = ttk.Button(master=self._frame, text="Kirjaudu ulos", command=self._handle_log_out)
-        btn_log_out.grid(columnspan=5, sticky=tk.constants.EW, padx=5, pady=5, ipadx=5, ipady=5)
+        btn_log_out.grid(columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
