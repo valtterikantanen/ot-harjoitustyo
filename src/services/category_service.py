@@ -25,7 +25,7 @@ class CategoryService:
             user_id:
                 Vapaaehtoinen, oletuksena None, jolloin haetaan nykyisen käyttäjän kategoriat.
                 Jos halutaan muun käyttäjän kategoriat, tulee parametrinä antaa käyttäjän id.
-            
+
         Returns:
             Lista kategorioista.
         """
@@ -41,7 +41,7 @@ class CategoryService:
             user_id:
                 Vapaaehtoinen, oletuksena None, jolloin haetaan nykyisen käyttäjän kategoriat.
                 Jos halutaan muun käyttäjän kategoriat, tulee parametrinä antaa käyttäjän id.
-            
+
         Returns:
             Lista kategorioista.
         """

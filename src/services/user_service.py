@@ -60,8 +60,8 @@ class UserService:
         """Kirjaa käyttäjän sisään.
 
         Args:
-            username (_type_): Käyttäjän käyttäjätunnus.
-            password (_type_): Käyttäjän salasana.
+            username: Käyttäjän käyttäjätunnus.
+            password: Käyttäjän salasana.
 
         Raises:
             UserNotFoundError:

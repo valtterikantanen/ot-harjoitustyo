@@ -9,21 +9,23 @@ class TransactionRepository:
         """Luokan konstruktori.
 
         Args:
-            database: Tietokantayhteyden Connection-olio
+            database: Tietokantayhteyden Connection-olio.
         """
 
         self.database = database
 
-    def add(self, date, amount, category_id, user_id, description=None):
+    def add(self, transaction):
         """Tallentaa uuden tapahtuman tietokantaan.
 
         Args:
-            date: Päivämäärä merkkijonona (muodossa 'YYYY-MM-DD')
-            amount: Summa kokonaislukuna (esim. summa 99,68 € esitetään muodossa 9968).
-            category_id: Tapahtuman kategorian id.
-            user_id: Sen käyttäjän id, jonka tapahtuma on kyseessä.
-            description: Tapahtuman kuvaus. Vapaaehtoinen, oletuksena None.
+            transaction: Tapahtuman tiedot Transaction-oliona.
         """
+
+        date = transaction.date
+        amount = transaction.amount
+        category_id = transaction.category_id
+        user_id = transaction.user_id
+        description = transaction.description
 
         self.database.execute(
             "INSERT INTO Transactions (date, amount, category_id, description, user_id) "
@@ -95,6 +97,8 @@ class TransactionRepository:
                 "SELECT T.id, T.date, T.amount, C.name AS category, T.description FROM "
                 "Transactions T, Categories C WHERE T.user_id=? AND T.category_id=C.id "
                 "AND T.amount >= 0 ORDER BY T.date DESC", [user_id]).fetchall()
+        else:
+            return []
 
         return transactions
 

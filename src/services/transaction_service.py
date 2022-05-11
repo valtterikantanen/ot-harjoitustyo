@@ -1,5 +1,6 @@
 import re
 
+from entities.transaction import Transaction
 from repositories.user_repository import user_repository
 from repositories.transaction_repository import transaction_repository
 from repositories.category_repository import category_repository
@@ -50,7 +51,7 @@ class TransactionService:
 
         if "-" in amount:
             raise AmountInWrongFormatError()
-        
+
         if category_type == "expense":
             amount = f"-{amount}"
 
@@ -62,10 +63,9 @@ class TransactionService:
         if amount < -999_999_999 or amount > 999_999_999:
             raise TooBigNumberError()
 
-        if not re.match("^\d{2}\.\d{2}\.\d{4}$", date):
+        if not re.match(r"^\d{2}\.\d{2}\.\d{4}$", date):
             raise DateInWrongFormatError()
-        else:
-            date = f"{date[6:]}-{date[3:5]}-{date[:2]}"
+        date = f"{date[6:]}-{date[3:5]}-{date[:2]}"
 
         return amount, date
 
@@ -81,11 +81,11 @@ class TransactionService:
                 Summa merkkijonona (muodossa '0,00' tai '0.00').
             category:
                 Tapahtuman kategoria
-            description: 
+            description:
                 Tapahtuman kuvaus. Vapaaehtoinen, oletuksena None.
             user_id:
                 Sen käyttäjän id, jonka tapahtuma on kyseessä. Oletuksena None, jolloin tapahtuma
-                lisätään nykyiselle käyttäjälle. 
+                lisätään nykyiselle käyttäjälle.
         """
 
         amount, date = self.validate_data(category_type, amount, date)
@@ -95,7 +95,7 @@ class TransactionService:
         if not user_id:
             user_id = self.user_repository.get_user_id(self.user_service.user.username)
 
-        self.transaction_repository.add(date, amount, category_id, user_id, description)
+        self.transaction_repository.add(Transaction(date, amount, category_id, user_id, description))
 
     def update(self, transaction_id, date, category_type, amount, category, description=None):
         """Päivittää halutun tapahtuman tiedot.
@@ -172,7 +172,7 @@ class TransactionService:
         Returns:
             Käyttäjän uusimman tapahtuman päivämäärä merkkijonona muodossa 'YYYY-MM-DD'.
         """
-        
+
         if not user_id:
             user_id = self.user_repository.get_user_id(self.user_service.user.username)
         return self.transaction_repository.get_maximum_date(user_id)
@@ -185,6 +185,5 @@ class TransactionService:
         """
 
         self.transaction_repository.delete(transaction_id)
-
 
 transaction_service = TransactionService()

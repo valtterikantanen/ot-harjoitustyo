@@ -51,11 +51,11 @@ class CategoryRepository:
         return categories
 
     def get_categories_in_use(self, user_id):
-        """Hakee ne kategoriat, joissa käyttäjällä on vähintään yksi meno.
+        """Hakee ne kategoriat, joissa käyttäjällä on vähintään yksi tapahtuma.
 
         Args:
             user_id: Sen käyttäjän id, jonka kategoriat haetaan.
-            
+
         Returns:
             Lista kategorioista.
         """
