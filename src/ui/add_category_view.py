@@ -73,7 +73,7 @@ class AddCategoryView:
             category_type = "income"
 
         if self._type_entry and len(name) > 0:
-            category_service.add(name, category_type)
+            category_service.add(name, category_type, user_id)
             self._show_category_view()
 
     def _initialize(self):

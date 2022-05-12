@@ -3,8 +3,7 @@ from ui.create_user_view import CreateUserView
 from ui.budget_view import BudgetView
 from ui.category_view import CategoryView
 from ui.add_category_view import AddCategoryView
-from ui.edit_transaction_view import EditTransactionView
-from ui.add_transaction_view import AddTransactionView
+from ui.transaction_view import TransactionView
 
 class UI:
     def __init__(self, root):
@@ -30,7 +29,7 @@ class UI:
     def _show_budget_view(self):
         self._hide_current_view()
 
-        self._current_view = BudgetView(self._root, self._show_login_view, self._show_add_transaction_view, self._show_category_view, self._show_edit_transaction_view)
+        self._current_view = BudgetView(self._root, self._show_login_view, self._show_transaction_view, self._show_category_view)
 
         self._current_view.pack()
 
@@ -55,16 +54,9 @@ class UI:
 
         self._current_view.pack()
 
-    def _show_add_transaction_view(self, category_type):
+    def _show_transaction_view(self, category_type, transaction_id, editing):
         self._hide_current_view()
 
-        self._current_view = AddTransactionView(self._root, self._show_budget_view, category_type)
-
-        self._current_view.pack()
-
-    def _show_edit_transaction_view(self, selected_item):
-        self._hide_current_view()
-
-        self._current_view = EditTransactionView(self._root, self._show_budget_view, selected_item)
-
+        self._current_view = TransactionView(self._root, self._show_budget_view, category_type, transaction_id, editing)
+        
         self._current_view.pack()

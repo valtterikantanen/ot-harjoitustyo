@@ -9,12 +9,11 @@ from services.transaction_service import transaction_service
 from services.user_service import user_service
 
 class BudgetView:
-    def __init__(self, root, show_login_view, show_add_transaction_view, show_category_view, show_edit_transaction_view):
+    def __init__(self, root, show_login_view, show_transaction_view, show_category_view):
         self._root = root
         self._show_login_view = show_login_view
-        self._show_add_transaction_view = show_add_transaction_view
         self._show_category_view = show_category_view
-        self._show_edit_transaction_view = show_edit_transaction_view
+        self._show_transaction_view = show_transaction_view
         self._selected_transaction_id = None
         self._start_date_entry = None
         self._end_date_entry = None
@@ -180,7 +179,7 @@ class BudgetView:
         def edit():
             selected_item = transaction_list.selection()[0] if transaction_list.selection() else None
             if selected_item:
-                self._show_edit_transaction_view(self._selected_transaction_id)
+                self._show_transaction_view(None, self._selected_transaction_id, True)
             else:
                 messagebox.showerror(message="Valitse muokattava tapahtuma!")
 
@@ -195,10 +194,10 @@ class BudgetView:
         self._show_login_view()
 
     def _handle_show_new_expense_view(self):
-        self._show_add_transaction_view("expense")
+        self._show_transaction_view("expense", None, False)
 
     def _handle_show_new_income_view(self):
-        self._show_add_transaction_view("income")
+        self._show_transaction_view("income", None, False)
 
     def _initialize_buttons(self):
         btn_new_expense = ttk.Button(master=self._frame, text="Lisää uusi meno", command=self._handle_show_new_expense_view)
