@@ -48,7 +48,8 @@ class BudgetView:
         lbl_category_list.grid(row=1, column=1, sticky=tk.constants.SW)
 
         chosen_categories = tk.StringVar()
-        all_categories = category_service.get_categories_in_use()
+        user_id = user_service.get_current_user_id()
+        all_categories = category_service.get_categories_in_use(user_id)
         category_list = tk.Listbox(self._frame, listvariable=chosen_categories, width=50, height=8, selectmode=tk.MULTIPLE, exportselection=False, selectbackground="#3399FF", selectforeground="#FFFFFF")
 
         for category in all_categories:
@@ -67,8 +68,9 @@ class BudgetView:
 
     def _initialize_date_fields(self):
         today = datetime.now().strftime("%Y-%m-%d")
-        min_date = transaction_service.get_minimum_date() or today
-        max_date = transaction_service.get_maximum_date() or today
+        user_id = user_service.get_current_user_id()
+        min_date = transaction_service.get_minimum_date(user_id) or today
+        max_date = transaction_service.get_maximum_date(user_id) or today
 
         start_date = tk.StringVar()
         end_date = tk.StringVar()
@@ -99,11 +101,13 @@ class BudgetView:
         end_date.trace("w", update_dates)
 
     def _initialize_transaction_list(self):
+        user_id = user_service.get_current_user_id()
         if self._show_expenses.get() and self._show_incomes.get():
-            transactions = transaction_service.get_all()
+            transactions = transaction_service.get_all(user_id=user_id)
         elif self._show_expenses.get() or self._show_incomes.get():
             category_type = "expense" if self._show_expenses.get() else "income"
-            transactions = transaction_service.get_all(category_type=category_type)
+            transactions = transaction_service.get_all(
+                user_id=user_id, category_type=category_type)
         else:
             transactions = []
 

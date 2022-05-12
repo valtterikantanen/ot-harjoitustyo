@@ -1,10 +1,7 @@
 import re
 
 from entities.transaction import Transaction
-from repositories.user_repository import user_repository
 from repositories.transaction_repository import transaction_repository
-from repositories.category_repository import category_repository
-from services.user_service import user_service
 
 class AmountInWrongFormatError(Exception):
     pass
@@ -24,10 +21,7 @@ class TransactionService:
         """Luokan konstruktori.
         """
 
-        self.user_repository = user_repository
         self.transaction_repository = transaction_repository
-        self.category_repository = category_repository
-        self.user_service = user_service
 
     def validate_data(self, category_type, amount, date):
         """Validoi uuteen tai päivitettävään tapahtumaan liittyviä tietoja.
@@ -69,7 +63,7 @@ class TransactionService:
 
         return amount, date
 
-    def create(self, date, category_type, amount, category, description=None, user_id=None):
+    def create(self, date, category_type, amount, category_id, user_id, description=None):
         """Luo uuden tapahtuman.
 
         Args:
@@ -79,25 +73,20 @@ class TransactionService:
                 Tapahtumatyyppi ('expense' jos meno, 'income' jos tulo).
             amount:
                 Summa merkkijonona (muodossa '0,00' tai '0.00').
-            category:
-                Tapahtuman kategoria
+            category_id:
+                Tapahtuman kategorian id.
+            user_id:
+                Sen käyttäjän id, jonka tapahtuma on kyseessä.
             description:
                 Tapahtuman kuvaus. Vapaaehtoinen, oletuksena None.
-            user_id:
-                Sen käyttäjän id, jonka tapahtuma on kyseessä. Oletuksena None, jolloin tapahtuma
-                lisätään nykyiselle käyttäjälle.
         """
 
         amount, date = self.validate_data(category_type, amount, date)
 
-        category_id = self.category_repository.get_category_id(category)
+        self.transaction_repository.add(
+            Transaction(date, amount, category_id, user_id, description))
 
-        if not user_id:
-            user_id = self.user_repository.get_user_id(self.user_service.user.username)
-
-        self.transaction_repository.add(Transaction(date, amount, category_id, user_id, description))
-
-    def update(self, transaction_id, date, category_type, amount, category, description=None):
+    def update(self, transaction_id, date, category_type, amount, category_id, description=None):
         """Päivittää halutun tapahtuman tiedot.
 
         Args:
@@ -105,22 +94,20 @@ class TransactionService:
             date: Päivämäärä merkkijonona (muodossa 'DD.MM.YYYY').
             category_type: Tapahtumatyyppi ('expense' jos meno, 'income' jos tulo).
             amount: Summa merkkijonona (muodossa '0,00' tai '0.00').
-            category: Tapahtuman kategoria
+            category_id: Tapahtuman kategorian id.
             description: Tapahtuman kuvaus. Vapaaehtoinen, oletuksena None.
         """
 
         amount, date = self.validate_data(category_type, amount, date)
-        category_id = self.category_repository.get_category_id(category)
 
         self.transaction_repository.update(transaction_id, date, amount, category_id, description)
 
-    def get_all(self, user_id=None, category_type=None):
-        """Hakee nykyisen käyttäjän tapahtumat.
+    def get_all(self, user_id, category_type=None):
+        """Hakee käyttäjän tapahtumat.
 
         Args:
             user_id:
-                Sen käyttäjän id, jonka tapahtumat haetaan. Vapaaehtoinen, oletuksen None, jolloin
-                haetaan nykyisen käyttäjän tapahtumat.
+                Sen käyttäjän id, jonka tapahtumat haetaan.
             category_type:
                 Vapaaehtoinen, oletuksena None, jolloin haetaan sekä menot että tulot. Jos halutaan
                 vain menot, parametrin arvo on 'expense' ja jos vain menot, niin 'income'.
@@ -129,8 +116,6 @@ class TransactionService:
             Lista käyttäjän tapahtumista.
         """
 
-        if not user_id:
-            user_id = self.user_repository.get_user_id(self.user_service.user.username)
         return self.transaction_repository.find_all(user_id, category_type)
 
     def get_one(self, transaction_id):
@@ -145,36 +130,28 @@ class TransactionService:
 
         return self.transaction_repository.get_transaction(transaction_id)
 
-    def get_minimum_date(self, user_id=None):
+    def get_minimum_date(self, user_id):
         """Hakee käyttäjän vanhimman tapahtuman ajankohdan.
 
         Args:
-            user_id:
-                Vapaaehtoinen, oletuksena None, jolloin haetaan nykyisen
-                käyttäjän vanhimman tapahtuman päivämäärä.
+            user_id: Sen käyttäjän id, jonka vanhimman tapahtuman päivämäärä haetaan.
 
         Returns:
             Käyttäjän vanhimman tapahtuman päivämäärä merkkijonona muodossa 'YYYY-MM-DD'.
         """
 
-        if not user_id:
-            user_id = self.user_repository.get_user_id(self.user_service.user.username)
         return self.transaction_repository.get_minimum_date(user_id)
 
-    def get_maximum_date(self, user_id=None):
+    def get_maximum_date(self, user_id):
         """Hakee käyttäjän uusimman tapahtuman ajankohdan.
 
         Args:
-            user_id:
-                Vapaaehtoinen, oletuksena None, jolloin haetaan nykyisen
-                käyttäjän uusimman tapahtuman päivämäärä.
+            user_id: Sen käyttäjän id, jonka uusimman tapahtuman päivämäärä haetaan.
 
         Returns:
             Käyttäjän uusimman tapahtuman päivämäärä merkkijonona muodossa 'YYYY-MM-DD'.
         """
 
-        if not user_id:
-            user_id = self.user_repository.get_user_id(self.user_service.user.username)
         return self.transaction_repository.get_maximum_date(user_id)
 
     def delete(self, transaction_id):

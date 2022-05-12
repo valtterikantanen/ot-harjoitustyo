@@ -4,6 +4,7 @@ from tkcalendar import DateEntry
 
 from services.transaction_service import transaction_service, AmountInWrongFormatError, TooBigNumberError, DateInWrongFormatError
 from services.category_service import category_service
+from services.user_service import user_service
 
 class EditTransactionView:
     def __init__(self, root, show_budget_view, transaction_id):
@@ -40,8 +41,9 @@ class EditTransactionView:
     def _initialize_category_selection(self):
         self._category_entry = self._transaction[2]
         categories_list = []
+        user_id = user_service.get_current_user_id()
 
-        for category in category_service.get_all(self._category_type):
+        for category in category_service.get_all(user_id, self._category_type):
             categories_list.append(category[1])
 
         def set_category(category_selection):
@@ -89,7 +91,7 @@ class EditTransactionView:
 
     def _handle_edit_transaction(self):
         date = self._date_entry.get()
-        category = self._category_entry
+        category_id = category_service.get_category_id(self._category_entry, self._category_type)
         amount = self._amount_entry.get()
         description = self._description_entry.get("1.0", "end-1c")
 
@@ -98,7 +100,7 @@ class EditTransactionView:
 
         try:
             if len(description) <= 50:
-                transaction_service.update(self._transaction_id, date, self._category_type, amount, category, description)
+                transaction_service.update(self._transaction_id, date, self._category_type, amount, category_id, description)
                 messagebox.showinfo(message="Tiedot päivitetty!")
                 self._show_budget_view()
         except AmountInWrongFormatError:

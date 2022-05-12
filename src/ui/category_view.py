@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 
 from services.category_service import category_service
+from services.user_service import user_service
 
 class CategoryView:
     def __init__(self, root, show_budget_view, show_add_category_view):
@@ -20,7 +21,8 @@ class CategoryView:
         self._frame.destroy()
 
     def _initialize_category_list(self):
-        categories = category_service.get_all()
+        user_id = user_service.get_user_id()
+        categories = category_service.get_all(user_id)
 
         category_list = ttk.Treeview(self._frame)
 
@@ -54,7 +56,7 @@ class CategoryView:
             if selected_item:
                 answer = messagebox.askyesno(message="Haluatko varmasti poistaa kategorian?", icon="warning")
                 if answer:
-                    category_service.delete(self._selected_category_id)
+                    category_service.delete(self._selected_category_id, user_id)
                     category_list.delete(selected_item)
             else:
                 messagebox.showerror(message="Valitse kategoria!")

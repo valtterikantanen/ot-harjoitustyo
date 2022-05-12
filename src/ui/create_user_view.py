@@ -1,6 +1,7 @@
 import tkinter as tk
 
 from services.user_service import user_service, PasswordsDontMatchError, UsernameAlreadyExistsError, InvalidUsernameOrPasswordError
+from services.category_service import category_service
 
 class CreateUserView:
     def __init__(self, root, show_budget_view, show_login_view):
@@ -56,7 +57,8 @@ class CreateUserView:
         password2 = self._confirm_password_entry.get()
 
         try:
-            user_service.create(username, password1, password2)
+            user_id = user_service.create(username, password1, password2)
+            category_service.add_default_categories(user_id)
             user_service.login(username, password1)
             self._show_budget_view()
         except PasswordsDontMatchError:

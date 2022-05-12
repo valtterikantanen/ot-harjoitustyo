@@ -1,6 +1,4 @@
-from repositories.user_repository import user_repository
 from repositories.category_repository import category_repository
-from services.user_service import user_service
 
 
 class CategoryService:
@@ -11,77 +9,78 @@ class CategoryService:
         """Luokan konstruktori.
         """
 
-        self.user_repository = user_repository
         self.category_repository = category_repository
-        self.user_service = user_service
 
-    def get_all(self, category_type=None, user_id=None):
+    def get_all(self, user_id, category_type=None):
         """Hakee kategoriat.
 
         Args:
+            user_id:
+                Sen käyttäjän id, jonka kategoriat haetaan.
             category_type:
                 Vapaaehtoinen, oletuksena None, jolloin haetaan sekä meno- että tulokategoriat.
                 Jos halutaan vain toiset, niin parametrin arvo joko 'expense' tai 'income'.
-            user_id:
-                Vapaaehtoinen, oletuksena None, jolloin haetaan nykyisen käyttäjän kategoriat.
-                Jos halutaan muun käyttäjän kategoriat, tulee parametrinä antaa käyttäjän id.
 
         Returns:
             Lista kategorioista.
         """
 
-        if not user_id:
-            user_id = self.user_repository.get_user_id(self.user_service.user.username)
         return self.category_repository.get_categories(user_id, category_type)
 
-    def get_categories_in_use(self, user_id=None):
+    def get_categories_in_use(self, user_id):
         """Hakee ne kategoriat, joissa käyttäjällä on vähintään yksi meno.
 
         Args:
-            user_id:
-                Vapaaehtoinen, oletuksena None, jolloin haetaan nykyisen käyttäjän kategoriat.
-                Jos halutaan muun käyttäjän kategoriat, tulee parametrinä antaa käyttäjän id.
+            user_id: Sen käyttäjän id, jonka kategoriat haetaan.
 
         Returns:
             Lista kategorioista.
         """
 
-        if not user_id:
-            user_id = self.user_repository.get_user_id(self.user_service.user.username)
         return self.category_repository.get_categories_in_use(user_id)
 
-    def delete(self, category_id, user_id=None):
+    def delete(self, category_id, user_id):
         """Poistaa kategorian näkyvistä.
 
         Args:
-            category_id:
-                Poistettavan kategorian id.
-            user_id:
-                Vapaaehtoinen, oletuksena None, jolloin poistetaan kategoria nykyiseltä
-                käyttäjältä. Parametrina voidaan myös antaa sen käyttäjän id, jolta kategoria
-                halutaan poistaa.
+            category_id: Poistettavan kategorian id.
+            user_id: Sen käyttäjän id, jolta kategoria poistetaan.
         """
 
-        if not user_id:
-            user_id = self.user_repository.get_user_id(self.user_service.user.username)
         self.category_repository.delete(category_id, user_id)
 
-    def add(self, name, category_type, user_id=None):
+    def add(self, name, category_type, user_id):
         """Luo uuden kategorian.
 
         Args:
-            name:
-                Lisättävän kategorian nimi.
-            category_type:
-                Lisättävän kategorian tyyppi ('expense' jos meno, 'income' jos tulo).
-            user_id:
-                Vapaaehtoinen, oletuksena None, jolloin luodaan kategoria nykyiselle käyttäjälle.
-                Voidaan myös antaa parametrina sen käyttäjän id, jolle kategoria lisätään.
+            name: Lisättävän kategorian nimi.
+            category_type: Lisättävän kategorian tyyppi ('expense' jos meno, 'income' jos tulo).
+            user_id: Sen käyttäjän id, jolle kategoria lisätään.
         """
 
-        if not user_id:
-            user_id = self.user_repository.get_user_id(self.user_service.user.username)
         self.category_repository.add(name, category_type, user_id)
+
+    def add_default_categories(self, user_id):
+        """Lisää käyttäjälle näkyviin valmiiksi asetetut kategoriat.
+
+        Args:
+            user_id: Sen käyttäjän id, jolle kategoriat lisätään.
+        """
+
+        self.category_repository.add_default_categories(user_id)
+
+    def get_category_id(self, name, category_type):
+        """Hakee kategorian id:n nimen perusteella.
+
+        Args:
+            name: Kategorian nimi.
+            category_type: Kategorian tyyppi ('expense' jos meno, 'income' jos tulo).
+
+        Returns:
+            Kategorian id, jos kategoria löytyi, muuten None.
+        """
+
+        return self.category_repository.get_category_id(name, category_type)
 
 
 category_service = CategoryService()

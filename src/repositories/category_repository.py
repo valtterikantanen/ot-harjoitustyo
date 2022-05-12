@@ -118,7 +118,8 @@ class CategoryRepository:
         """Palauttaa haetun kategorian id:n.
 
         Args:
-            name: Haetun kategorian nimi.
+            name:
+                Haetun kategorian nimi.
             category_type:
                 Vapaaehtoinen, oletuksena None, jolloin haetaan kaikista kategorioista. Jos arvo
                 on annettu, haetaan vain joko meno- tai tulokategorioista ('expense' jos meno,

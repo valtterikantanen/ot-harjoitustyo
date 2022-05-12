@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from services.category_service import category_service
+from services.user_service import user_service
 
 class AddCategoryView:
     def __init__(self, root, show_category_view):
@@ -59,6 +60,7 @@ class AddCategoryView:
 
     def _handle_add_category(self):
         name = self._name_entry.get().strip()
+        user_id = user_service.get_current_user_id()
 
         if len(name) == 0:
             self._display_error("Syötä kategorian nimi!")

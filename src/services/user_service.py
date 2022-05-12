@@ -1,6 +1,5 @@
 from entities.user import User
 from repositories.user_repository import user_repository
-from repositories.category_repository import category_repository
 
 class PasswordsDontMatchError(Exception):
     pass
@@ -28,7 +27,6 @@ class UserService:
 
         self.user = None
         self.user_repository = user_repository
-        self.category_repository = category_repository
 
     def create(self, username, password1, password2):
         """Luo uuden käyttäjän ja lisää hänen käyttöönsä oletuskategoriat.
@@ -53,8 +51,7 @@ class UserService:
         if len(username.strip()) == 0 or len(password1.strip()) == 0:
             raise InvalidUsernameOrPasswordError()
 
-        user_id = self.user_repository.create(User(username, password1))
-        self.category_repository.add_default_categories(user_id)
+        return self.user_repository.create(User(username, password1))
 
     def login(self, username, password):
         """Kirjaa käyttäjän sisään.
@@ -83,6 +80,18 @@ class UserService:
         """
 
         self.user = None
+
+    def get_current_user_id(self):
+        """Hakee nykyisen käyttäjän id:n.
+
+        Args:
+            username: Haettavan käyttäjän käyttäjänimi.
+
+        Returns:
+            Haetun käyttäjän id, jos käyttäjä on olemassa, muuten None.
+        """
+
+        return self.user_repository.get_user_id(self.user.username)
 
 
 user_service = UserService()
