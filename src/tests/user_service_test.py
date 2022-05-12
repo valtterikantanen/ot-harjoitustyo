@@ -32,3 +32,6 @@ class TestBudgetService(unittest.TestCase):
     def test_log_out_when_logged_in(self):
         self.user_service.logout()
         self.assertEqual(self.user_service.user, None)
+
+    def test_get_current_user_id(self):
+        self.assertEqual(self.user_service.get_current_user_id(), 1)
