@@ -16,11 +16,15 @@ class TestCategoryService(unittest.TestCase):
         self.user_service.login("antero", "password123")
         self.category_service.add_default_categories(1)
 
-    def test_add_category(self):
+    def test_add_new_category(self):
         self.assertEqual(len(self.category_service.get_all(1)), 21)
         self.category_service.add("Testimeno", "Meno", 1)
         self.category_service.add("Testitulo", "Tulo", 1)
         self.assertEqual(len(self.category_service.get_all(1)), 23)
+
+    def test_add_existing_category(self):
+        self.category_service.add("Asuminen", "expense", 1)
+        self.assertEqual(len(self.category_service.get_all(1)), 21)
 
     def test_delete_category(self):
         self.assertEqual(len(self.category_service.get_all(1)), 21)
