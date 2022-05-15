@@ -29,3 +29,9 @@
 * Muokattu tietokantaa niin, että jokaisella käyttäjällä on omat kategoriansa, jolloin yhden käyttäjän lisäämät tai poistamat kategoriat eivät suoraan vaikuta muihin käyttäjiin
 * Lisätty mahdollisuus muokata ja poistaa jo lisättyjä tapahtumia
 * Testattu, että kategorioiden poisto sekä tapahtumien muokkaus ja poisto toimivat odotetulla tavalla
+
+## Viikko 7
+
+* Lisätty mahdollisuus suodattaa päänäkymässä näkyviä menoja ajankohdan tai kategorian mukaan
+* Korjattu pieniä virheitä mm. uuden tapahtuman lisäämisessä
+* Viimeistelty graafisen käyttöliittymän ulkoasua

@@ -1,6 +1,6 @@
 # Ohjelmistotekniikka-kurssin palautusrepositorio
 
-Tämä repositorio on laadittu Helsingin yliopiston kevään 2022 kurssille **Ohjelmistotekniikka**, ja se täydentyy tulevien viikkojen aikana.
+Harjoitustyö on laadittu Helsingin yliopiston kevään 2022 kurssille **Ohjelmistotekniikka**.
 
 ## Harjoitustyön kuvaus
 
@@ -9,20 +9,17 @@ Sovelluksen avulla käyttäjä voi seurata henkilökohtaista talouttaan. Seurant
 ## Julkaisut (releaset)
 
 * [Viikko 5](https://github.com/valtterikantanen/ot-harjoitustyo/releases/tag/viikko5)
-
 * [Viikko 6](https://github.com/valtterikantanen/ot-harjoitustyo/releases/tag/viikko6)
+* [Loppupalautus](https://github.com/valtterikantanen/ot-harjoitustyo/releases/tag/loppupalautus)
 
 ## Dokumentaatio
 
 * [Vaatimusmäärittely](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
-
 * [Käyttöohje](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
-
-* [Työaikakirjanpito](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
-
-* [Changelog](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/changelog.md)
-
 * [Arkkitehtuurikuvaus](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
+* [Testausdokumentti](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/testaus.md)
+* [Työaikakirjanpito](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
+* [Changelog](https://github.com/valtterikantanen/ot-harjoitustyo/blob/master/dokumentaatio/changelog.md)
 
 ## Asennus ja käyttö
 

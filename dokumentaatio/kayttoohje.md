@@ -1,5 +1,21 @@
 # Käyttöohje
 
+## Asennus ja käyttöönotto
+
+Tallenna sovelluksen lähdekoodi zip-pakettina [tästä](https://github.com/valtterikantanen/ot-harjoitustyo/archive/refs/tags/loppupalautus.zip) ja pura se. Purkamisen jälkeen siirry projektin juurikansioon. Juurikansiossa suorita ensin komento  
+
+```
+$ poetry install
+```
+joka asentaa sovelluksen tarvitsemat kirjastot. Seuraavaksi suorita alustustoimenpiteet komennolla
+```
+$ poetry run invoke build
+```
+Tämän jälkeen ohjelma on valmiina käytettäväksi. Ohjelman voi käynnistää komennolla
+```
+$ poetry run invoke start
+```
+
 ## Kirjautuminen
 
 Sovellus käynnistyy kirjautumisnäkymään:

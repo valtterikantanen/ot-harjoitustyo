@@ -16,4 +16,8 @@
 | 29.4. | 6        | Laajennettu käyttöliittymää, selkiytetty testejä                                      |
 | 2.5.  | 6        | Parannettu virheenkäsittelyä, laajennettu edelleen käyttöliittymää                    |
 | 3.5.  | 7        | Poistettu toisteista koodia, parannettu koodin muotoilua, kirjoitettu uusia testejä   |
-|       | 53       | **Yhteensä**                                                                          |
+| 10.5. | 5        | Koodin refaktorointia, esim. BudgetService-luokka jaettu kolmeen uuteen luokkaan      |
+| 11.5. | 7        | Käyttöliittymän viimeistelyä, lisätty esim. mahdollisuus rajata näkyviä tapahtumia    |
+| 12.5. | 5        | Testien laajentamista uusimpien ominaisuuksien osalta, koodin refaktorointia          |
+| 14.5. | 4        | Koodin refaktorointia ja viimeistelyä, docstringin kirjoittamista                     |
+|       | **79**   | **Yhteensä**                                                                          |
