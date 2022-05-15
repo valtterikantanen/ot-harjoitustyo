@@ -73,15 +73,18 @@ class LoginView:
 
         self._error_message = tk.StringVar(self._frame)
 
-        self._error_label = tk.Label(master=self._frame, textvariable=self._error_message, foreground="red")
+        self._error_label = tk.Label(
+            master=self._frame, textvariable=self._error_message, foreground="red")
 
         self._initialize_username_field()
         self._initialize_password_field()
 
-        btn_login = tk.Button(master=self._frame, text="Kirjaudu sisään", command=self._handle_sign_in)
+        btn_login = tk.Button(
+            master=self._frame, text="Kirjaudu sisään", command=self._handle_sign_in)
         btn_login.grid(columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
-        btn_sign_up = tk.Button(master=self._frame, text="Luo uusi käyttäjätili", command=self._show_create_user_view)
+        btn_sign_up = tk.Button(
+            master=self._frame, text="Luo uusi käyttäjätili", command=self._show_create_user_view)
         btn_sign_up.grid(columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         frm_buttons = tk.Frame()

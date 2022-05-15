@@ -58,11 +58,15 @@ class AddCategoryView:
         type_entry.grid(row=1, column=1, sticky=tk.constants.EW, padx=5, pady=5)
 
     def _initialize_buttons(self):
-        btn_new_income = ttk.Button(master=self._frame, text="Lisää kategoria", command=self._handle_add_category)
-        btn_new_income.grid(row=2, columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
+        btn_new_income = ttk.Button(
+            master=self._frame, text="Lisää kategoria", command=self._handle_add_category)
+        btn_new_income.grid(
+            row=2, columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
-        btn_cancel = ttk.Button(master=self._frame, text="Peruuta", command=self._show_category_view)
-        btn_cancel.grid(row=3, columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
+        btn_cancel = ttk.Button(
+            master=self._frame, text="Peruuta", command=self._show_category_view)
+        btn_cancel.grid(
+            row=3, columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
     def _display_error(self, message):
         self._error_message.set(message)
@@ -94,7 +98,8 @@ class AddCategoryView:
 
         self._error_message = tk.StringVar(self._frame)
 
-        self._error_label = tk.Label(master=self._frame, textvariable=self._error_message, foreground="red")
+        self._error_label = tk.Label(
+            master=self._frame, textvariable=self._error_message, foreground="red")
 
         self._initialize_name_field()
         self._initialize_type_selection()

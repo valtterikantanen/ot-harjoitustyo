@@ -42,7 +42,7 @@ class BudgetView:
 
     def destroy(self):
         """Piilottaa näkymän."""
-        
+
         self._frame.destroy()
 
     def _initialize_username_label(self):
@@ -51,10 +51,14 @@ class BudgetView:
         lbl_username.grid(row=0, columnspan=4, sticky=tk.constants.EW, pady=10)
 
     def _initialize_checkbuttons(self):
-        show_expenses = tk.Checkbutton(self._frame, text="Näytä menot", variable=self._show_expenses, command=self._initialize_transaction_list)
+        show_expenses = tk.Checkbutton(
+            self._frame, text="Näytä menot", variable=self._show_expenses,
+            command=self._initialize_transaction_list)
         show_expenses.grid(row=2, padx=5, pady=5, sticky=tk.constants.SW)
 
-        show_incomes = tk.Checkbutton(self._frame, text="Näytä tulot", variable=self._show_incomes, command=self._initialize_transaction_list)
+        show_incomes = tk.Checkbutton(
+            self._frame, text="Näytä tulot", variable=self._show_incomes,
+            command=self._initialize_transaction_list)
         show_incomes.grid(row=3, padx=5, pady=5, sticky=tk.constants.NW)
 
     def _initialize_category_listbox(self):
@@ -64,7 +68,10 @@ class BudgetView:
         chosen_categories = tk.StringVar()
         user_id = user_service.get_current_user_id()
         all_categories = category_service.get_categories_in_use(user_id)
-        category_list = tk.Listbox(self._frame, listvariable=chosen_categories, width=50, height=8, selectmode=tk.MULTIPLE, exportselection=False, selectbackground="#3399FF", selectforeground="#FFFFFF")
+        category_list = tk.Listbox(
+            self._frame, listvariable=chosen_categories, width=50, height=8,
+            selectmode=tk.MULTIPLE, exportselection=False,
+            selectbackground="#3399FF", selectforeground="#FFFFFF")
 
         for category in all_categories:
             category_list.insert(category[0], category[1])
@@ -90,13 +97,19 @@ class BudgetView:
         end_date = tk.StringVar()
 
         lbl_start_date = tk.Label(master=self._frame, text="Alkupäivä:")
-        self._start_date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=10, year=int(min_date[:4]), month=int(min_date[5:7]), day=int(min_date[8:]), textvariable=start_date)
+        self._start_date_entry = DateEntry(
+            master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy",
+            width=10, year=int(min_date[:4]), month=int(min_date[5:7]),
+            day=int(min_date[8:]), textvariable=start_date)
 
         lbl_start_date.grid(row=2, column=2, padx=5, pady=5, sticky=tk.constants.SE)
         self._start_date_entry.grid(row=2, column=3, padx=5, pady=5, sticky=tk.constants.S)
 
         lbl_end_date = tk.Label(master=self._frame, text="Loppupäivä:")
-        self._end_date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=10, year=int(max_date[:4]), month=int(max_date[5:7]), day=int(max_date[8:]), textvariable=end_date)
+        self._end_date_entry = DateEntry(
+            master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy",
+            width=10, year=int(max_date[:4]), month=int(max_date[5:7]),
+            day=int(max_date[8:]), textvariable=end_date)
 
         lbl_end_date.grid(row=3, column=2, padx=5, pady=5, sticky=tk.constants.NE)
         self._end_date_entry.grid(row=3, column=3, padx=5, pady=5, sticky=tk.constants.N)
@@ -165,17 +178,22 @@ class BudgetView:
             transaction_id = transactions[i][0]
             datetime_object = datetime.strptime(transactions[i][1], "%Y-%m-%d")
             date = datetime.strftime(datetime_object, "%-d.%-m.%Y")
-            amount = f"{('%.2f' % (transactions[i][2] / 100)).replace('.', ',').replace('-', '−')} €"
+            amount = transactions[i][2]
+            amount = f"{('%.2f' % (amount / 100)).replace('.', ',').replace('-', '−')} €"
             category = transactions[i][3]
             description = transactions[i][4]
             tag = "red" if amount[0] == "−" else "green"
 
             if self._chosen_categories is None or category in self._chosen_categories:
                 if self._start_date_entry and self._end_date_entry:
-                    if start_date_datetime_object <= datetime_object and end_date_datetime_object >= datetime_object:
-                        transaction_list.insert(parent="", index="end", iid=i, text="", values=(transaction_id, date, amount, category, description), tags=tag)
+                    if start_date_datetime_object <= datetime_object <= end_date_datetime_object:
+                        transaction_list.insert(
+                            parent="", index="end", iid=i, text="", values=(transaction_id, date,
+                            amount, category, description), tags=tag)
                 else:
-                    transaction_list.insert(parent="", index="end", iid=i, text="", values=(transaction_id, date, amount, category, description), tags=tag)
+                    transaction_list.insert(
+                        parent="", index="end", iid=i, text="", values=(transaction_id, date,
+                        amount, category, description), tags=tag)
             
         transaction_list.grid(row=4, column=0, padx=(10, 0), columnspan=4, sticky=tk.constants.EW)
         transaction_list.tag_configure("red", foreground="red")
@@ -184,7 +202,8 @@ class BudgetView:
         def delete():
             selected_item = transaction_list.selection()[0] if transaction_list.selection() else None
             if selected_item:
-                answer = messagebox.askyesno(message="Haluatko varmasti poistaa tapahtuman?", icon="warning")
+                answer = messagebox.askyesno(
+                    message="Haluatko varmasti poistaa tapahtuman?", icon="warning")
                 if answer:
                     transaction_service.delete(self._selected_transaction_id)
                     transaction_list.delete(selected_item)
@@ -198,11 +217,15 @@ class BudgetView:
             else:
                 messagebox.showerror(message="Valitse muokattava tapahtuma!")
 
-        btn_edit_transaction = ttk.Button(master=self._frame, text="Muokkaa tapahtumaa", command=edit)
-        btn_edit_transaction.grid(row=9, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
+        btn_edit_transaction = ttk.Button(
+            master=self._frame, text="Muokkaa tapahtumaa", command=edit)
+        btn_edit_transaction.grid(
+            row=9, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
         
-        btn_delete_transaction = ttk.Button(master=self._frame, text="Poista tapahtuma", command=delete)
-        btn_delete_transaction.grid(row=10, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
+        btn_delete_transaction = ttk.Button(
+            master=self._frame, text="Poista tapahtuma", command=delete)
+        btn_delete_transaction.grid(
+            row=10, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
     def _handle_log_out(self):
         user_service.logout()
@@ -215,17 +238,25 @@ class BudgetView:
         self._show_transaction_view("income", None, False)
 
     def _initialize_buttons(self):
-        btn_new_expense = ttk.Button(master=self._frame, text="Lisää uusi meno", command=self._handle_show_new_expense_view)
-        btn_new_expense.grid(row=7, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
+        btn_new_expense = ttk.Button(
+            master=self._frame, text="Lisää uusi meno", command=self._handle_show_new_expense_view)
+        btn_new_expense.grid(
+            row=7, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
-        btn_new_income = ttk.Button(master=self._frame, text="Lisää uusi tulo", command=self._handle_show_new_income_view)
-        btn_new_income.grid(row=8, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
+        btn_new_income = ttk.Button(
+            master=self._frame, text="Lisää uusi tulo", command=self._handle_show_new_income_view)
+        btn_new_income.grid(
+            row=8, columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
-        btn_show_categories = ttk.Button(master=self._frame, text="Tarkastele kategorioita", command=self._show_category_view)
-        btn_show_categories.grid(columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
+        btn_show_categories = ttk.Button(
+            master=self._frame, text="Tarkastele kategorioita", command=self._show_category_view)
+        btn_show_categories.grid(
+            columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
-        btn_log_out = ttk.Button(master=self._frame, text="Kirjaudu ulos", command=self._handle_log_out)
-        btn_log_out.grid(columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
+        btn_log_out = ttk.Button(
+            master=self._frame, text="Kirjaudu ulos", command=self._handle_log_out)
+        btn_log_out.grid(
+            columnspan=5, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)

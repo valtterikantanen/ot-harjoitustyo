@@ -61,27 +61,32 @@ class CategoryView:
             category_id = categories[i][0]
             name = categories[i][1]
             category_type = "Meno" if categories[i][2] == "expense" else "Tulo"
-            category_list.insert(parent="", index="end", iid=i, text="", values=(category_id, name, category_type))
+            category_list.insert(
+                parent="", index="end", iid=i, text="", values=(category_id, name, category_type))
 
         category_list.grid(sticky=tk.constants.W, padx=5, pady=5)
 
         def delete():
             selected_item = category_list.selection()[0] if category_list.selection() else None
             if selected_item:
-                answer = messagebox.askyesno(message="Haluatko varmasti poistaa kategorian?", icon="warning")
+                answer = messagebox.askyesno(
+                    message="Haluatko varmasti poistaa kategorian?", icon="warning")
                 if answer:
                     category_service.delete(self._selected_category_id, user_id)
                     category_list.delete(selected_item)
             else:
                 messagebox.showerror(message="Valitse kategoria!")
 
-        btn_add_category = ttk.Button(master=self._frame, text="Lisää kategoria", command=self._show_add_category_view)
+        btn_add_category = ttk.Button(
+            master=self._frame, text="Lisää kategoria", command=self._show_add_category_view)
         btn_add_category.grid(sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
-        btn_delete_category = ttk.Button(master=self._frame, text="Poista kategoria", command=delete)
+        btn_delete_category = ttk.Button(
+            master=self._frame, text="Poista kategoria", command=delete)
         btn_delete_category.grid(sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
-        btn_show_main_view = ttk.Button(master=self._frame, text="Palaa päänäkymään", command=self._show_budget_view)
+        btn_show_main_view = ttk.Button(
+            master=self._frame, text="Palaa päänäkymään", command=self._show_budget_view)
         btn_show_main_view.grid(sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
     def _initialize(self):

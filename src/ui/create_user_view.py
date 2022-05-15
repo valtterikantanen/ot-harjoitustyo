@@ -1,6 +1,9 @@
 import tkinter as tk
 
-from services.user_service import user_service, PasswordsDontMatchError, UsernameAlreadyExistsError, InvalidUsernameOrPasswordError
+from services.user_service import (
+    user_service, PasswordsDontMatchError, UsernameAlreadyExistsError,
+    InvalidUsernameOrPasswordError
+)
 from services.category_service import category_service
 
 class CreateUserView:
@@ -91,13 +94,15 @@ class CreateUserView:
 
         self._error_message = tk.StringVar(self._frame)
 
-        self._error_label = tk.Label(master=self._frame, textvariable=self._error_message, foreground="red")
+        self._error_label = tk.Label(
+            master=self._frame, textvariable=self._error_message, foreground="red")
 
         self._initialize_username_field()
         self._initialize_password_field()
         self._initialize_confirm_password_field()
 
-        btn_sign_up = tk.Button(master=self._frame, text="Luo käyttäjätili", command=self._handle_signing_up)
+        btn_sign_up = tk.Button(
+            master=self._frame, text="Luo käyttäjätili", command=self._handle_signing_up)
         btn_sign_up.grid(columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         btn_cancel = tk.Button(master=self._frame, text="Peruuta", command=self._show_login_view)
