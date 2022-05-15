@@ -1,3 +1,4 @@
+from datetime import datetime
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
@@ -32,12 +33,10 @@ class TransactionView:
 
     def _initialize_date_field(self):
         lbl_date = tk.Label(master=self._frame, text="Päivämäärä")
+        today = datetime.today().strftime("%Y-%m-%d")
+        date = self._transaction[0] if self._editing else today
 
-        if self._editing:
-            date = self._transaction[0]
-            self._date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=30, year=int(date[:4]), month=int(date[5:7]), day=int(date[8:]))
-        else:
-            self._date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=30)
+        self._date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=30, year=int(date[:4]), month=int(date[5:7]), day=int(date[8:]))
 
         lbl_date.grid(sticky=tk.constants.W)
         self._date_entry.grid(row=0, column=1, sticky=tk.constants.EW, padx=5, pady=5)
@@ -93,7 +92,7 @@ class TransactionView:
     def _initialize_buttons(self):
         add_or_update = "Päivitä tiedot" if self._editing else "Lisää tapahtuma"
 
-        btn_new_expense = ttk.Button(master=self._frame, text=add_or_update, command=self._handle_edit_transaction)
+        btn_new_expense = ttk.Button(master=self._frame, text=add_or_update, command=self._handle_add_or_edit_transaction)
         btn_new_expense.grid(row=4, columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         btn_cancel = ttk.Button(master=self._frame, text="Peruuta", command=self._show_budget_view)
@@ -106,7 +105,7 @@ class TransactionView:
     def _hide_error(self):
         self._error_label.grid_remove()
 
-    def _handle_edit_transaction(self):
+    def _handle_add_or_edit_transaction(self):
         date = self._date_entry.get()
         category_id = category_service.get_category_id(self._category_entry, self._category_type)
         amount = self._amount_entry.get()
