@@ -21,7 +21,7 @@ class CategoryView:
         self._frame.destroy()
 
     def _initialize_category_list(self):
-        user_id = user_service.get_user_id()
+        user_id = user_service.get_current_user_id()
         categories = category_service.get_all(user_id)
 
         category_list = ttk.Treeview(self._frame)

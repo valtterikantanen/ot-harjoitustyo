@@ -66,7 +66,7 @@ class AddCategoryView:
             self._display_error("Syötä kategorian nimi!")
 
         if not self._type_entry:
-            self._display_error("Valitse kategoria!")
+            self._display_error("Valitse kategorian tyyppi!")
         elif self._type_entry == "Meno":
             category_type = "expense"
         elif self._type_entry == "Tulo":

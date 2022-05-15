@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date as datetime
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
@@ -33,8 +33,7 @@ class TransactionView:
 
     def _initialize_date_field(self):
         lbl_date = tk.Label(master=self._frame, text="Päivämäärä")
-        today = datetime.today().strftime("%Y-%m-%d")
-        date = self._transaction[0] if self._editing else today
+        date = self._transaction[0] if self._editing else datetime.today().isoformat()
 
         self._date_entry = DateEntry(master=self._frame, locale="fi_FI", date_pattern="dd.mm.yyyy", width=30, year=int(date[:4]), month=int(date[5:7]), day=int(date[8:]))
 
