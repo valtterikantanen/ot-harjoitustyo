@@ -2,8 +2,7 @@ from database_connection import get_database
 
 
 class TransactionRepository:
-    """Luokka, joka vastaa tapahtumiin liittyvistä tietokantaoperaatioista.
-    """
+    """Luokka, joka vastaa tapahtumiin liittyvistä tietokantaoperaatioista."""
 
     def __init__(self, database):
         """Luokan konstruktori.

@@ -3,8 +3,7 @@ from entities.user import User
 
 
 class UserRepository:
-    """Luokka, joka vastaa käyttäjiin liittyvistä tietokantaoperaatioista.
-    """
+    """Luokka, joka vastaa käyttäjiin liittyvistä tietokantaoperaatioista."""
 
     def __init__(self, database):
         """Luokan konstruktori.

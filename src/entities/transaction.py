@@ -1,6 +1,5 @@
 class Transaction:
-    """Luokka, joka kuvaa yksittäistä tapahtumaa.
-    """
+    """Luokka, joka kuvaa yksittäistä tapahtumaa."""
 
     def __init__(self, date, amount, category_id, user_id, description=None):
         """Luokan konstruktori.

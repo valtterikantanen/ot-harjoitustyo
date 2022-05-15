@@ -1,6 +1,5 @@
 class User:
-    """Luokka, joka kuvaa yksittäistä käyttäjää.
-    """
+    """Luokka, joka kuvaa yksittäistä käyttäjää."""
 
     def __init__(self, username, password):
         """Luokan konstruktori.
@@ -9,5 +8,6 @@ class User:
             username: Käyttäjään liitetty käyttäjätunnus.
             password: Käyttäjään liitetty salasana.
         """
+
         self.username = username
         self.password = password

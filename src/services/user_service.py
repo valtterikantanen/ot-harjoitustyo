@@ -18,12 +18,10 @@ class InvalidUsernameOrPasswordError(Exception):
 
 
 class UserService:
-    """Käyttäjiin liittyvästä sovelluslogiikasta vastaava luokka.
-    """
+    """Käyttäjiin liittyvästä sovelluslogiikasta vastaava luokka."""
 
     def __init__(self):
-        """Luokan konstruktori.
-        """
+        """Luokan konstruktori."""
 
         self.user = None
         self.user_repository = user_repository
@@ -37,7 +35,8 @@ class UserService:
             password2: Haluttu salasana toiseen kertaan.
 
         Raises:
-            UsernameAlreadyExistsError: Virhe, joka tapahtuu, kun käyttäjätunnus on jo käytössä.
+            UsernameAlreadyExistsError:
+                Virhe, joka tapahtuu, kun käyttäjätunnus on jo käytössä.
             PasswordsDontMatchError:
                 Virhe, joka tapahtuu, kun ensimmäinen ja toinen salasana eivät vastaa toisiaan.
             InvalidUsernameOrPasswordError:
@@ -64,7 +63,8 @@ class UserService:
             UserNotFoundError:
                 Virhe, joka tapahtuu, kun käyttäjän antamaa käyttäjätunnusta vastaavaa käyttäjää
                 ei ole olemassa.
-            WrongPasswordError: Virhe, joka tapahtuu, kun käyttäjän antama salasana on väärä.
+            WrongPasswordError:
+                Virhe, joka tapahtuu, kun käyttäjän antama salasana on väärä.
         """
 
         result = self.user_repository.search_by_username(username)
@@ -76,8 +76,7 @@ class UserService:
         self.user = result
 
     def logout(self):
-        """Kirjaa mahdollisesti sisäänkirjautuneen käyttäjän ulos.
-        """
+        """Kirjaa mahdollisesti sisäänkirjautuneen käyttäjän ulos."""
 
         self.user = None
 

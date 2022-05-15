@@ -2,8 +2,7 @@ from database_connection import get_database
 
 
 class CategoryRepository:
-    """Luokka, joka vastaa kategorioihin liittyvistä tietokantaoperaatioista.
-    """
+    """Luokka, joka vastaa kategorioihin liittyvistä tietokantaoperaatioista."""
 
     def __init__(self, database):
         """Luokan konstruktori.

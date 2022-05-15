@@ -110,33 +110,45 @@ class TransactionView:
         amount = self._amount_entry.get()
         description = self._description_entry.get("1.0", "end-1c")
         user_id = user_service.get_current_user_id()
+        error = False
 
         if not self._category_entry:
             self._display_error("Valitse kategoria!")
+            error = True
 
         if len(description) > 50:
             self._display_error("Kuvauksen maksimipituus on 50 merkkiä.")
+            error = True
 
-        try:
-            if len(description) <= 50:
+        if not error:
+            try:
                 if self._editing:
                     transaction_service.update(self._transaction_id, date, self._category_type, amount, category_id, description)
-                    messagebox.showinfo(message="Tiedot päivitetty!")
                 else:
                     transaction_service.create(date, self._category_type, amount, category_id, user_id, description)
-                    messagebox.showinfo(message="Tapahtuma lisätty")
-                self._show_budget_view()
-        except AmountInWrongFormatError:
-            self._display_error("Tarkista summa!\n• Desimaalierottimena voi käyttää pilkkua tai pistettä.\n• Kentässä ei voi olla kirjaimia eikä mm. miinus- tai €-merkkejä.\n• Älä käytä tuhaterottimia.")
-        except TooBigNumberError:
-            self._display_error("Määrän on oltava välillä 0...9 999 999,99 €.")
-        except DateInWrongFormatError:
-            self._display_error("Syötä päivämäärä muodossa '01.01.2020'.")
+            except AmountInWrongFormatError:
+                error = True
+                self._display_error("Tarkista summa!\n• Desimaalierottimena voi käyttää pilkkua tai pistettä.\n• Kentässä ei voi olla kirjaimia eikä mm. miinus- tai €-merkkejä.\n• Älä käytä tuhaterottimia.")
+            except TooBigNumberError:
+                error = True
+                self._display_error("Määrän on oltava välillä 0–9 999 999,99 €.")
+            except DateInWrongFormatError:
+                error = True
+                self._display_error("Syötä päivämäärä muodossa '01.01.2020'.")
+
+        if not error:
+            if self._editing:
+                messagebox.showinfo(message="Tiedot päivitetty!")
+            else:
+                messagebox.showinfo(message="Tapahtuma lisätty!")
+            self._show_budget_view()
 
     def _initialize(self):
         self._frame = tk.Frame(master=self._root)
 
-        self._transaction = transaction_service.get_one(self._transaction_id)
+        if self._editing:
+            self._transaction = transaction_service.get_one(self._transaction_id)
+            self._category_type = "expense" if self._transaction[1] < 0 else "income"
         
         self._error_message = tk.StringVar(self._frame)
 

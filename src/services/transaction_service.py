@@ -14,12 +14,10 @@ class DateInWrongFormatError(Exception):
 
 
 class TransactionService:
-    """Tapahtumiin liittyvästä sovelluslogiikasta vastaava luokka.
-    """
+    """Tapahtumiin liittyvästä sovelluslogiikasta vastaava luokka."""
 
     def __init__(self):
-        """Luokan konstruktori.
-        """
+        """Luokan konstruktori."""
 
         self.transaction_repository = transaction_repository
 

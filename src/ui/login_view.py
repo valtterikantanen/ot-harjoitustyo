@@ -3,10 +3,20 @@ import tkinter as tk
 from services.user_service import user_service, UserNotFoundError, WrongPasswordError
 
 class LoginView:
-    def __init__(self, root, handle_login, handle_display_create_user_view):
+    """Käyttäjän sisäänkirjautumisesta vastaava näkymä."""
+
+    def __init__(self, root, show_budget_view, show_create_user_view):
+        """Luokan konstruktori.
+        
+        Args:
+            root: tkinterin juurielementti, jonka sisään näkymä alustetaan.
+            show_budget_view: Arvo, jota kutsutaan, kun siirrytään pää- eli budjettinäkymään.
+            show_create_user_view: Arvo, jota kutsutaan, kun siirrytään käyttäjän lisäysnäkymään.
+        """
+
         self._root = root
-        self._handle_login = handle_login
-        self._handle_display_create_user_view = handle_display_create_user_view
+        self._show_budget_view = show_budget_view
+        self._show_create_user_view = show_create_user_view
         self._frame = None
         self._username_entry = None
         self._password_entry = None
@@ -16,9 +26,13 @@ class LoginView:
         self._initialize()
 
     def pack(self):
+        """Näyttää näkymän."""
+
         self._frame.pack(fill=tk.X, ipadx=5, ipady=5)
 
     def destroy(self):
+        """Piilottaa näkymän."""
+
         self._frame.destroy()
 
     def _initialize_username_field(self):
@@ -48,7 +62,7 @@ class LoginView:
 
         try:
             user_service.login(username, password)
-            self._handle_login()
+            self._show_budget_view()
         except WrongPasswordError:
             self._display_error("Väärä salasana.")
         except UserNotFoundError:
@@ -67,7 +81,7 @@ class LoginView:
         btn_login = tk.Button(master=self._frame, text="Kirjaudu sisään", command=self._handle_sign_in)
         btn_login.grid(columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
-        btn_sign_up = tk.Button(master=self._frame, text="Luo uusi käyttäjätili", command=self._handle_display_create_user_view)
+        btn_sign_up = tk.Button(master=self._frame, text="Luo uusi käyttäjätili", command=self._show_create_user_view)
         btn_sign_up.grid(columnspan=2, sticky=tk.constants.EW, padx=10, pady=5, ipadx=5, ipady=5)
 
         frm_buttons = tk.Frame()

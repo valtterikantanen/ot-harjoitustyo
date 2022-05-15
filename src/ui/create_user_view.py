@@ -4,7 +4,21 @@ from services.user_service import user_service, PasswordsDontMatchError, Usernam
 from services.category_service import category_service
 
 class CreateUserView:
+    """Uuden käyttäjätilin luomisesta vastaava näkymä."""
+
     def __init__(self, root, show_budget_view, show_login_view):
+        """Luokan konstruktori.
+        
+        Args:
+            root:
+                tkinterin juurielementti, jonka sisään näkymä alustetaan.
+            show_budget_view:
+                Arvo, jota kutsutaan, jos käyttäjätunnuksen luonti on onnistunut.
+                Siirtää käyttäjän sovelluksen päänäkymään.
+            show_login_view:
+                Arvo, jota kutsutaan, kun siirrytään (takaisin) kirjautumisnäkymään.
+        """
+
         self._root = root
         self._show_budget_view = show_budget_view
         self._show_login_view = show_login_view
@@ -18,9 +32,13 @@ class CreateUserView:
         self._initialize()
 
     def pack(self):
+        """Näyttää näkymän."""
+
         self._frame.pack(fill=tk.X, ipadx=5, ipady=5)
 
     def destroy(self):
+        """Piilottaa näkymän."""
+
         self._frame.destroy()
 
     def _initialize_username_field(self):

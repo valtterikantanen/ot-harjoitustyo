@@ -9,7 +9,18 @@ from services.transaction_service import transaction_service
 from services.user_service import user_service
 
 class BudgetView:
+    """Sovelluksen budjettinäkymän näyttämisestä (mm. tapahtumien listaus) vastaava näkymä."""
+
     def __init__(self, root, show_login_view, show_transaction_view, show_category_view):
+        """Luokan konstruktori.
+        
+        Args:
+            root: tkinterin juurielementti, jonka sisään näkymä alustetaan.
+            show_login_view: Arvo, jota kutsutaan, kun siirrytään kirjautumisnäkymään.
+            show_transaction_view: Arvo, jota kutsutaan, kun siirrytään tapahtumanäkymään.
+            show_category_view: Arvo, jota kutsutaan, kun siirrytään kategorianäkymään.
+        """
+
         self._root = root
         self._show_login_view = show_login_view
         self._show_category_view = show_category_view
@@ -25,9 +36,13 @@ class BudgetView:
         self._initialize()
 
     def pack(self):
+        """Näyttää näkymän."""
+
         self._frame.pack(fill=tk.X, ipadx=5, ipady=5)
 
     def destroy(self):
+        """Piilottaa näkymän."""
+        
         self._frame.destroy()
 
     def _initialize_username_label(self):

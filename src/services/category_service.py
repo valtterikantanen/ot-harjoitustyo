@@ -2,12 +2,10 @@ from repositories.category_repository import category_repository
 
 
 class CategoryService:
-    """Sovelluslogiikasta vastaava luokka.
-    """
+    """Sovelluslogiikasta vastaava luokka."""
 
     def __init__(self):
-        """Luokan konstruktori.
-        """
+        """Luokan konstruktori."""
 
         self.category_repository = category_repository
 
@@ -28,7 +26,7 @@ class CategoryService:
         return self.category_repository.get_categories(user_id, category_type)
 
     def get_categories_in_use(self, user_id):
-        """Hakee ne kategoriat, joissa käyttäjällä on vähintään yksi meno.
+        """Hakee ne kategoriat, joissa käyttäjällä on vähintään yksi tapahtuma.
 
         Args:
             user_id: Sen käyttäjän id, jonka kategoriat haetaan.

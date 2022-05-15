@@ -5,7 +5,17 @@ from services.category_service import category_service
 from services.user_service import user_service
 
 class CategoryView:
+    """Kategorioiden listaamisesta vastaava näkymä."""
+
     def __init__(self, root, show_budget_view, show_add_category_view):
+        """Luokan konstruktori.
+        
+        Args:
+            root: tkinterin juurielementti, jonka sisään näkymä alustetaan.
+            show_budget_view: Arvo, jota kutsutaan, kun siirrytään pää- eli budjettinäkymään.
+            show_add_category_view: Arvo, jota kutsutaan, kun siirrytään kategorian lisäysnäkymään.
+        """
+
         self._root = root
         self._show_budget_view = show_budget_view
         self._show_add_category_view = show_add_category_view
@@ -15,9 +25,13 @@ class CategoryView:
         self._initialize()
 
     def pack(self):
+        """Näyttää näkymän."""
+
         self._frame.pack(fill=tk.X, ipadx=5, ipady=5)
 
     def destroy(self):
+        """Piilottaa näkymän."""
+
         self._frame.destroy()
 
     def _initialize_category_list(self):

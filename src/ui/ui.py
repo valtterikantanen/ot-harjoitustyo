@@ -6,11 +6,21 @@ from ui.add_category_view import AddCategoryView
 from ui.transaction_view import TransactionView
 
 class UI:
+    """Sovelluksen graafisesta käyttöliittymästä vastaava luokka."""
+
     def __init__(self, root):
+        """Luokan konstruktori.
+
+        Args:
+            root: tkinterin juurielementti, jonka sisään näkymä alustetaan.
+        """
+
         self._root = root
         self._current_view = None
 
     def start(self):
+        """Käynnistää käyttöliittymän."""
+
         self._show_login_view()
 
     def _hide_current_view(self):
